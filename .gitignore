@@ -1,0 +1,34 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+
+# env
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# ---------------------------------------------------------------------------
+# Source asset library — NOT part of the published site.
+#
+# Portfolio-assets/ holds the raw capture packs (hundreds of MB of full-page
+# PNGs) plus internal material that must never be published, e.g.
+# the-intern/documents/ROLE-NOTES.md (internal identifiers), STATUS.md.
+#
+# Only cropped, optimized images committed under content/**/images/ ship.
+# ---------------------------------------------------------------------------
+/Portfolio-assets/
