@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Twin } from "@/components/ui/Twin";
 import { getProject } from "@/lib/content";
+import { countWord } from "@/lib/numbers";
 
 /**
  * Capability tied to proof. Every category links to the shipped product that
@@ -17,15 +18,26 @@ export function Capabilities() {
         index="01"
         label={lexicon.whatIBuild}
         title="Systems businesses actually run on"
-        lead="Four kinds of product, each with something shipped behind it."
+        lead={`${countWord(capabilities.length, true)} kinds of product, each with something shipped behind it.`}
       />
 
       <ul className="grid gap-px overflow-hidden rounded-figure border border-rule bg-rule md:grid-cols-2">
-        {capabilities.map((capability) => {
+        {capabilities.map((capability, index) => {
           const proof = getProject(capability.proof);
+          // An odd count would leave a hole in a two-column grid; the last
+          // one spans instead.
+          const spans =
+            capabilities.length % 2 === 1 && index === capabilities.length - 1;
 
           return (
-            <li key={capability.label.en} className="bg-paper-raised p-8">
+            <li
+              key={capability.label.en}
+              className={
+                spans
+                  ? "bg-paper-raised p-8 md:col-span-2"
+                  : "bg-paper-raised p-8"
+              }
+            >
               <h3 className="text-h3">
                 <Twin label={capability.label} />
               </h3>

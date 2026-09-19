@@ -45,4 +45,14 @@ export const capabilities: Capability[] = [
     body: "Products whose content is generated, shipped to web and both app stores — where the interesting work is what happens when the model, the network or the store says no.",
     proof: "the-intern",
   },
+  {
+    // Distinct from the enterprise platform above: here the media weight is
+    // the engineering problem, not the org chart.
+    label: {
+      en: "Media-heavy brand sites",
+      ar: ar("مواقع بصرية"),
+    },
+    body: "Sites for studios and brands whose product is the imagery itself — where the work is carrying hundreds of photos and videos without making the visitor wait for them.",
+    proof: "ojos-studio",
+  },
 ];

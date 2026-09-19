@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ProjectRow } from "@/components/work/ProjectRow";
 import { getFeaturedProjects } from "@/lib/content";
+import { countWord } from "@/lib/numbers";
 
 export function FeaturedWork() {
   const projects = getFeaturedProjects();
@@ -13,7 +14,7 @@ export function FeaturedWork() {
       <SectionHeader
         index="02"
         label={lexicon.selectedWork}
-        title="Four products, built end to end"
+        title={`${countWord(projects.length, true)} products, built end to end`}
         lead="Each one taken from the business problem through to production — and each case study says what was hard about it."
       />
 

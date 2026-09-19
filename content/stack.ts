@@ -18,6 +18,9 @@ export const stack = {
   vite: { name: "Vite", group: "frontend" },
   maplibre: { name: "MapLibre GL", group: "frontend" },
   i18next: { name: "i18next", group: "frontend" },
+  framerMotion: { name: "Framer Motion", group: "frontend" },
+  reactRouter: { name: "React Router", group: "frontend" },
+  radix: { name: "Radix UI", group: "frontend" },
 
   // --- backend & data ---
   supabase: { name: "Supabase", group: "backend" },
@@ -29,6 +32,7 @@ export const stack = {
   resend: { name: "Resend", group: "backend" },
   twilio: { name: "Twilio", group: "backend" },
   stripe: { name: "Stripe", group: "backend" },
+  emailjs: { name: "EmailJS", group: "backend" },
 
   // --- mobile ---
   capacitor: { name: "Capacitor", group: "mobile" },
@@ -37,6 +41,7 @@ export const stack = {
   // --- delivery ---
   vercel: { name: "Vercel", group: "delivery" },
   cloudflareWorkers: { name: "Cloudflare Workers", group: "delivery" },
+  cloudinary: { name: "Cloudinary", group: "delivery" },
   gitlabCi: { name: "GitLab CI", group: "delivery" },
 } satisfies Record<string, { name: string; group: StackGroup }>;
 
