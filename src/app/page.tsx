@@ -7,6 +7,7 @@ import { FeaturedWork } from "@/components/home/FeaturedWork";
 import { FinalCta } from "@/components/home/FinalCta";
 import { Hero } from "@/components/home/Hero";
 import { Process } from "@/components/home/Process";
+import { ProjectsTimeline } from "@/components/home/ProjectsTimeline";
 import { ProofStrip } from "@/components/home/ProofStrip";
 import { StackMap } from "@/components/home/StackMap";
 
@@ -33,6 +34,7 @@ export default function Home() {
       <ProofStrip />
       <Capabilities />
       <FeaturedWork />
+      <ProjectsTimeline />
       <Process />
       <StackMap />
       <Background />

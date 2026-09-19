@@ -13,7 +13,7 @@ export function Background() {
   return (
     <Section id="background">
       <SectionHeader
-        index="05"
+        index="06"
         label={lexicon.background}
         title="Where this comes from"
       />

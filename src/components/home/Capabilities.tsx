@@ -21,7 +21,7 @@ export function Capabilities() {
         lead={`${countWord(capabilities.length, true)} kinds of product, each with something shipped behind it.`}
       />
 
-      <ul className="grid gap-px overflow-hidden rounded-figure border border-rule bg-rule md:grid-cols-2">
+      <ul className="reveal-stagger grid gap-px overflow-hidden rounded-figure border border-rule bg-rule md:grid-cols-2">
         {capabilities.map((capability, index) => {
           const proof = getProject(capability.proof);
           // An odd count would leave a hole in a two-column grid; the last
@@ -34,8 +34,8 @@ export function Capabilities() {
               key={capability.label.en}
               className={
                 spans
-                  ? "bg-paper-raised p-8 md:col-span-2"
-                  : "bg-paper-raised p-8"
+                  ? "bg-paper-raised p-8 transition-colors duration-base ease-editorial hover:bg-paper-accent md:col-span-2"
+                  : "bg-paper-raised p-8 transition-colors duration-base ease-editorial hover:bg-paper-accent"
               }
             >
               <h3 className="text-h3">

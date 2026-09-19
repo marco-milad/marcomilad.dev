@@ -1,6 +1,9 @@
 import { ar } from "../../types";
 import type { ProjectInput } from "../../schema";
 import adminPos from "./images/admin-pos.png";
+import adminProducts from "./images/admin-products.png";
+import categories from "./images/categories.png";
+import mCatalog from "./images/m-catalog.png";
 import adminSearch from "./images/admin-search.png";
 import mobileMenu from "./images/mobile-menu.png";
 import storefrontAr from "./images/storefront-ar.png";
@@ -44,6 +47,8 @@ export const mmBags: ProjectInput = {
     "twilio",
     "vercel",
   ],
+  brand: "#1b2b4b",
+  timeline: { start: "2026-05", end: "2026-09" },
   confidentiality: "public",
   depth: "case-study",
   featured: true,
@@ -181,6 +186,17 @@ export const mmBags: ProjectInput = {
             dir: "rtl",
             locale: "ar",
             caption: "The counter and the website draw down the same stock.",
+          },
+        },
+        {
+          title: "Catalogue management",
+          body: "Products and variants with bilingual names, collection, price, stock and the flags that drive the storefront.",
+          figure: {
+            src: adminProducts,
+            alt: "Products admin in Arabic listing items with thumbnails, prices, stock levels and active toggles",
+            treatment: "plate",
+            dir: "rtl",
+            locale: "ar",
           },
         },
         {
@@ -458,6 +474,22 @@ export const mmBags: ProjectInput = {
           dir: "rtl",
           locale: "ar",
           caption: "Mobile navigation — the design starts at this width.",
+        },
+        {
+          src: mCatalog,
+          alt: "Catalogue on a phone in Arabic, two products per row with prices",
+          treatment: "phone",
+          dir: "rtl",
+          locale: "ar",
+          caption: "The catalogue, where most customers actually browse.",
+        },
+        {
+          src: categories,
+          alt: "Collections landing page in Arabic with a dark hero and category cards",
+          treatment: "plate",
+          dir: "rtl",
+          locale: "ar",
+          caption: "Collections, merchandised from the admin.",
         },
       ],
     },

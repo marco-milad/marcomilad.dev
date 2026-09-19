@@ -9,6 +9,8 @@ import interviewEn from "./images/interview-en.png";
 import landingAr from "./images/landing-ar.png";
 import landingEn from "./images/landing-en.png";
 import playStore from "./images/play-store.png";
+import roleSelection from "./images/role-selection.png";
+import simulation from "./images/simulation.png";
 
 /**
  * Sources: Portfolio-assets/the-intern/documents/ROLE-NOTES.md (the operator's
@@ -53,6 +55,8 @@ export const theIntern: ProjectInput = {
   links: {
     live: "https://theintern.app",
   },
+  brand: "#7f13ec",
+  timeline: { start: "2026-04", end: "present" },
   confidentiality: "limited",
   depth: "case-study",
   featured: true,
@@ -141,6 +145,28 @@ export const theIntern: ProjectInput = {
           figure: {
             src: interviewEn,
             alt: "AI interview screen on a phone showing question one of five with an answer box",
+            treatment: "phone",
+            dir: "ltr",
+            locale: "en",
+          },
+        },
+        {
+          title: "Choosing a role",
+          body: "The student picks a company and a role, filtered by discipline, with matches ranked against their profile.",
+          figure: {
+            src: roleSelection,
+            alt: "Internship discovery screen on a phone with discipline filters and a list of matched internships",
+            treatment: "phone",
+            dir: "ltr",
+            locale: "en",
+          },
+        },
+        {
+          title: "The simulation",
+          body: "Each day of the internship carries generated tasks — a brief, a worked example and the criteria the response is assessed against.",
+          figure: {
+            src: simulation,
+            alt: "Simulation task screen showing a day-one brief, an example response and the evaluation criteria",
             treatment: "phone",
             dir: "ltr",
             locale: "en",

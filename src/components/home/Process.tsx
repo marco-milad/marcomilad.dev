@@ -14,7 +14,7 @@ export function Process() {
   return (
     <Section tone="band" id="process">
       <SectionHeader
-        index="03"
+        index="04"
         label={lexicon.process}
         tone="band"
         title="How the work actually goes"

@@ -1,6 +1,8 @@
 import { ar } from "../../types";
 import type { ProjectInput } from "../../schema";
 import brands from "./images/brands.png";
+import financials from "./images/financials.png";
+import mPartners from "./images/m-partners.png";
 import investors from "./images/investors.png";
 import mHome from "./images/m-home.png";
 import mPhysicians from "./images/m-physicians.png";
@@ -42,6 +44,8 @@ export const rayLab: ProjectInput = {
   links: {
     live: "https://raylab.health",
   },
+  brand: "#4f9907",
+  timeline: { start: "2026-04", end: "2026-05" },
   confidentiality: "limited",
   depth: "case-study",
   featured: true,
@@ -200,6 +204,17 @@ export const rayLab: ProjectInput = {
           figure: {
             src: partners,
             alt: "Technology partners section listing major diagnostic equipment manufacturers",
+            treatment: "plate",
+            dir: "ltr",
+            locale: "en",
+          },
+        },
+        {
+          title: "Investor figures",
+          body: "The performance tab renders its numbers from the same typed content modules as everything else, rather than being set as an image.",
+          figure: {
+            src: financials,
+            alt: "Investor performance cards showing operating revenue, annual exams, lab tests and new branches",
             treatment: "plate",
             dir: "ltr",
             locale: "en",
@@ -419,6 +434,13 @@ export const rayLab: ProjectInput = {
           dir: "ltr",
           locale: "en",
           caption: "The referral flow stacks rather than shrinking.",
+        },
+        {
+          src: mPartners,
+          alt: "Technology partner cards stacked on a phone",
+          treatment: "phone",
+          dir: "ltr",
+          locale: "en",
         },
       ],
     },

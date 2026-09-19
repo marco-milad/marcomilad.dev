@@ -6,18 +6,25 @@
    =========================================================================== */
 @theme {
   /* ---- Paper (light) ---- */
-  --color-paper: #f5f2ec;
-  --color-paper-raised: #fbf9f5;
-  --color-paper-sunk: #ece7df;
+  /* Warmed a touch from #f5f2ec so the terracotta sits in the same family
+     rather than on a neutral ground. */
+  --color-paper: #f7f3ea;
+  --color-paper-raised: #fcfaf6;
+  --color-paper-sunk: #ece6da;
+  /* Accent-tinted surface, for moments that should feel warm but stay quiet. */
+  --color-paper-accent: #f6ece6;
   --color-ink: #161513;
   --color-ink-2: #4a4843;
   --color-ink-3: #6f6c65;
-  --color-rule: #d9d3c8;
+  --color-rule: #dcd5c7;
   /* Interactive borders (outline buttons, inputs) need 3:1 against paper;
      --color-rule is decorative hairlines only. */
   --color-rule-strong: #8d857a;
   --color-accent: #b3432b;
   --color-accent-text: #983622;
+  /* Large display moments — the hero Arabic, section numerals. */
+  --color-accent-bright: #c04a2d;
+  --color-accent-soft: #e6b9a7;
 
   /* ---- Ink band (dark sections) ---- */
   --color-band: #141311;
@@ -29,7 +36,23 @@
   /* ---- Type families ---- */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Functional Arabic: nav, glossaries, RTL notes, anything read rather than
+     looked at. */
   --font-arabic: var(--font-plex-arabic), "Segoe UI", Tahoma, sans-serif;
+  /* Display Arabic, for the large decorative moments only. */
+  --font-kufi: var(--font-reem-kufi), "Segoe UI", Tahoma, sans-serif;
+
+  /* ---- Per-project brand colours ----
+     Sampled from each product's own screenshots. Used for tinted bands,
+     rules and marks so Work feels distinct; terracotta stays the site-wide
+     through-line. Raw brand values are never used for small text. */
+  --color-brand-mm-bags: #1b2b4b;
+  --color-brand-mm-bags-2: #b8975a;
+  --color-brand-gold: #1e3a5f;
+  --color-brand-gold-2: #c89b3c;
+  --color-brand-ray-lab: #4f9907;
+  --color-brand-the-intern: #7f13ec;
+  --color-brand-ojos: #2f4b37;
 
   /* ---- Fluid type scale (360px → 1440px) ---- */
   --text-display-xl: clamp(2.75rem, 1.6rem + 5.2vw, 6.5rem);
@@ -76,6 +99,71 @@
 
   /* ---- Motion ---- */
   --ease-editorial: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+@layer components {
+  /* -------------------------------------------------------------------------
+     Display Arabic. Decorative only — large headline moments, never reading
+     text. Tracking stays 0 (it breaks cursive joins) and these faces are
+     heavier by design, so they need less optical size bump than Plex.
+     ------------------------------------------------------------------------- */
+  .ar-kufi {
+    font-family: var(--font-kufi);
+    font-size: 1em;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  /* -------------------------------------------------------------------------
+     Scroll-driven entrances. Zero JS: browsers without support simply show
+     the content, and reduced-motion turns them off entirely (see below).
+     ------------------------------------------------------------------------- */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      /* Ranges are entry-only on purpose. A `cover`-based range can never
+         complete for a section taller than the viewport or one pinned to the
+         bottom of the page, which would leave content stuck faded out. Entry
+         ranges always finish for anything a visitor can actually reach. */
+      .reveal {
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 55%;
+      }
+
+      /* Staggered children for lists, grids and card rows. */
+      .reveal-stagger > * {
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 60%;
+      }
+
+      .reveal-stagger > *:nth-child(2) {
+        animation-range: entry 4% entry 64%;
+      }
+
+      .reveal-stagger > *:nth-child(3) {
+        animation-range: entry 8% entry 68%;
+      }
+
+      .reveal-stagger > *:nth-child(n + 4) {
+        animation-range: entry 12% entry 72%;
+      }
+    }
+  }
+
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 @layer base {

@@ -31,6 +31,9 @@ export const ojosStudio: ProjectInput = {
     "A media-heavy studio site where the imagery is the product: a Cloudinary-driven image pipeline, one route serving four different media experiences, and booking that works without a backend.",
   category: { en: "Media-heavy brand site", ar: ar("موقع بصري") },
   year: "2026",
+  // From the repository's own history: 41 commits in Dec 2025, 58 in Jan 2026.
+  // The lone 2025-01 commit is the scaffold's stamp, not work.
+  duration: "December 2025 – January 2026",
   status: "delivered",
   role: "Product engineer, end to end",
   platforms: ["web"],
@@ -47,6 +50,8 @@ export const ojosStudio: ProjectInput = {
     "cloudinary",
     "vercel",
   ],
+  brand: "#2f4b37",
+  timeline: { start: "2025-12", end: "2026-01" },
   confidentiality: "limited",
   depth: "case-study",
   featured: true,

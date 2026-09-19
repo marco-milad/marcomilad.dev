@@ -25,7 +25,7 @@ export function StackMap() {
   return (
     <Section id="stack">
       <SectionHeader
-        index="04"
+        index="05"
         label={lexicon.stack}
         title="Used in production, not just tried"
         lead="Each tool listed with the products it actually shipped in."

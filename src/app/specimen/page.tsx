@@ -8,26 +8,36 @@ export const metadata = {
 };
 
 /**
- * Dev-only specimen. Fonts, colors and the Arabic pairing get signed off here
- * before any real page is built. It must never ship.
+ * Dev-only specimen. Fonts, colour and the Arabic pairing get signed off here
+ * before anything rolls across the site. It must never ship.
  */
 const TOKENS = {
-  paper: "#f5f2ec",
-  paperRaised: "#fbf9f5",
-  paperSunk: "#ece7df",
+  paper: "#f7f3ea",
+  paperRaised: "#fcfaf6",
+  paperSunk: "#ece6da",
+  paperAccent: "#f6ece6",
   ink: "#161513",
   ink2: "#4a4843",
   ink3: "#6f6c65",
-  rule: "#d9d3c8",
+  rule: "#dcd5c7",
   ruleStrong: "#8d857a",
   accent: "#b3432b",
   accentText: "#983622",
+  accentBright: "#c04a2d",
   band: "#141311",
   bandFg: "#f2eee7",
   bandMuted: "#a6a198",
   bandRule: "#2b2925",
   accentOnBand: "#e2785c",
 } as const;
+
+const BRANDS = [
+  { name: "M.M Bags", slug: "mm-bags", color: "#1b2b4b", second: "#b8975a" },
+  { name: "Gold ERP", slug: "gold", color: "#1e3a5f", second: "#c89b3c" },
+  { name: "Ray Lab", slug: "ray-lab", color: "#4f9907", second: null },
+  { name: "The Intern", slug: "the-intern", color: "#7f13ec", second: null },
+  { name: "OJOS Studio", slug: "ojos", color: "#2f4b37", second: null },
+] as const;
 
 type Need = "normal" | "large" | "nonText" | "decorative";
 
@@ -42,35 +52,36 @@ const PAIRS: Array<{
   { label: "ink-2 / paper", fg: TOKENS.ink2, bg: TOKENS.paper, usage: "Secondary text", need: "normal" },
   { label: "ink-3 / paper", fg: TOKENS.ink3, bg: TOKENS.paper, usage: "Meta, captions", need: "normal" },
   { label: "accent / paper", fg: TOKENS.accent, bg: TOKENS.paper, usage: "Large type, rules", need: "large" },
-  { label: "accent-text / paper", fg: TOKENS.accentText, bg: TOKENS.paper, usage: "Small accent text", need: "normal" },
+  { label: "accent-bright / paper", fg: TOKENS.accentBright, bg: TOKENS.paper, usage: "Hero display Arabic", need: "large" },
+  { label: "accent-text / paper", fg: TOKENS.accentText, bg: TOKENS.paper, usage: "Small accent text, links", need: "normal" },
+  { label: "accent-text / paper-accent", fg: TOKENS.accentText, bg: TOKENS.paperAccent, usage: "Links on tinted surface", need: "normal" },
+  { label: "ink / paper-accent", fg: TOKENS.ink, bg: TOKENS.paperAccent, usage: "Text on tinted surface", need: "normal" },
+  { label: "ink-2 / paper-sunk", fg: TOKENS.ink2, bg: TOKENS.paperSunk, usage: "Frame chrome", need: "normal" },
   { label: "rule / paper", fg: TOKENS.rule, bg: TOKENS.paper, usage: "Decorative hairlines", need: "decorative" },
   { label: "rule-strong / paper", fg: TOKENS.ruleStrong, bg: TOKENS.paper, usage: "Button + input borders", need: "nonText" },
-  { label: "ink / paper-sunk", fg: TOKENS.ink, bg: TOKENS.paperSunk, usage: "Text on figure plates", need: "normal" },
-  { label: "ink-3 / paper-raised", fg: TOKENS.ink3, bg: TOKENS.paperRaised, usage: "Card meta", need: "normal" },
   { label: "band-fg / band", fg: TOKENS.bandFg, bg: TOKENS.band, usage: "Ink-section body", need: "normal" },
   { label: "band-muted / band", fg: TOKENS.bandMuted, bg: TOKENS.band, usage: "Ink-section meta", need: "normal" },
-  { label: "accent-on-band / band", fg: TOKENS.accentOnBand, bg: TOKENS.band, usage: "Ink-section accent + focus", need: "normal" },
-  { label: "band-rule / band", fg: TOKENS.bandRule, bg: TOKENS.band, usage: "Ink-section decorative hairlines", need: "decorative" },
+  { label: "accent-on-band / band", fg: TOKENS.accentOnBand, bg: TOKENS.band, usage: "Ink-section accent", need: "normal" },
 ];
 
-const TYPE_SCALE: Array<{
-  token: string;
-  cls: string;
-  sample: string;
-  ar: string;
-  /** Display sizes need the smaller Arabic factor. */
-  arDisplay?: boolean;
-}> = [
-  { token: "display-xl", cls: "text-display-xl", sample: "Idea to production", ar: "من الفكرة للإنتاج", arDisplay: true },
-  { token: "display", cls: "text-display", sample: "Selected work", ar: "أعمال مختارة", arDisplay: true },
-  { token: "h2", cls: "text-h2", sample: "Engineering decisions", ar: "قرارات هندسية", arDisplay: true },
-  { token: "h3", cls: "text-h3", sample: "Technical architecture", ar: "البنية التقنية" },
-  { token: "lead", cls: "text-lead", sample: "A product engineer who ships, then keeps improving.", ar: "مهندس منتجات يبني ويطوّر" },
-  { token: "body", cls: "text-body", sample: "The same data model serves the storefront and the shop counter.", ar: "نفس نموذج البيانات يخدم المتجر والمحل" },
-  { token: "small", cls: "text-small", sample: "Measured on the deployed preview, mobile profile.", ar: "مقاسة على النسخة المنشورة" },
-];
+/** Mix two hex colours in sRGB — mirrors what color-mix does at render time. */
+function mix(a: string, b: string, weightA: number): string {
+  const parse = (hex: string): [number, number, number] => {
+    const v = Number.parseInt(hex.slice(1), 16);
+    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+  };
+  const [ar, ag, ab] = parse(a);
+  const [br, bg, bb] = parse(b);
+  const m = (x: number, y: number) => Math.round(x * weightA + y * (1 - weightA));
+  return (
+    "#" +
+    [m(ar, br), m(ag, bg), m(ab, bb)]
+      .map((n) => n.toString(16).padStart(2, "0"))
+      .join("")
+  );
+}
 
-const VERBS: Array<{ en: string; ar: string }> = [
+const VERBS = [
   { en: "Understand", ar: "أفهم" },
   { en: "Structure", ar: "أنظّم" },
   { en: "Engineer", ar: "أبني" },
@@ -101,8 +112,8 @@ function Section({
               : "mb-block font-mono text-meta uppercase text-ink-3"
           }
         >
-          {index} — {label} <span aria-hidden="true">·</span>{" "}
-          <Ar decorative>{ar}</Ar>
+          <span className="text-accent-text">{index}</span> — {label}{" "}
+          <span aria-hidden="true">·</span> <Ar decorative>{ar}</Ar>
         </p>
         {children}
       </div>
@@ -111,28 +122,132 @@ function Section({
 }
 
 export default function SpecimenPage() {
-  // Visible in dev, and in a local production build when SPECIMEN=1 is set.
-  // Vercel never sets it, so the deployed site 404s this route.
   if (process.env.NODE_ENV === "production" && process.env.SPECIMEN !== "1") {
     notFound();
   }
 
   return (
     <>
-      <Section index="00" label="Specimen" ar="نموذج">
-        <h1 className="text-display-xl">
-          Eng. Marco Milad <span aria-hidden="true">·</span>{" "}
-          <Ar decorative className="ar-display">
-            ماركو ميلاد
-          </Ar>
-        </h1>
-        <p className="mt-6 max-w-prose text-lead text-ink-2">
-          Phase 1 sign-off: type scale, color contrast, and how Arabic sits
-          beside English. This page is not part of the site.
+      {/* ---------- A. Hero direction: bold Arabic display ---------- */}
+      <section className="relative overflow-hidden py-section">
+        <div className="mx-auto w-full max-w-content px-gutter">
+          <p className="font-mono text-meta uppercase text-ink-3">
+            <span className="text-accent-text">00</span> — Hero direction{" "}
+            <span aria-hidden="true">·</span> <Ar decorative>الواجهة</Ar>
+          </p>
+
+          <div className="relative mt-block">
+            {/* The decorative Arabic moment, candidate A (Reem Kufi). */}
+            <p
+              aria-hidden="true"
+              lang="ar"
+              dir="rtl"
+              className="ar-kufi pointer-events-none select-none text-[clamp(4rem,14vw,11rem)] leading-none text-accent-soft"
+            >
+              أبني
+            </p>
+
+            <h1 className="-mt-[0.35em] text-display-xl">
+              Product engineer,
+              <br />
+              idea to <span className="text-accent">production</span>.
+            </h1>
+          </div>
+
+          <p className="mt-block max-w-prose text-lead text-ink-2">
+            Candidate A sets the big Arabic in Reem Kufi behind the headline in
+            a soft accent tint, with one accent word in the headline itself.
+            Candidate B below uses Noto Kufi Arabic at full accent strength.
+          </p>
+
+          <div className="mt-section flex flex-wrap items-baseline gap-8">
+            <p
+              aria-hidden="true"
+              lang="ar"
+              dir="rtl"
+              className="ar-kufi text-[clamp(3rem,9vw,7rem)] leading-none text-accent"
+            >
+              ماركو ميلاد
+            </p>
+            <p className="font-mono text-meta uppercase text-ink-3">
+              Reem Kufi · accent
+            </p>
+          </div>
+
+          <div className="mt-block flex flex-wrap items-baseline gap-8">
+            <p
+              aria-hidden="true"
+              lang="ar"
+              dir="rtl"
+              className="ar-kufi-b text-[clamp(3rem,9vw,7rem)] leading-none text-accent"
+            >
+              ماركو ميلاد
+            </p>
+            <p className="font-mono text-meta uppercase text-ink-3">
+              Noto Kufi Arabic · accent
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- B. The two Arabic faces, side by side ---------- */}
+      <Section index="01" label="Arabic faces" ar="الخطوط">
+        <div className="grid gap-block lg:grid-cols-3">
+          {[
+            { name: "Reem Kufi", cls: "ar-kufi", role: "Display candidate A" },
+            { name: "Noto Kufi Arabic", cls: "ar-kufi-b", role: "Display candidate B" },
+            { name: "IBM Plex Sans Arabic", cls: "", role: "Functional — stays as is" },
+          ].map((face) => (
+            <div key={face.name} className="border-t border-rule pt-5">
+              <p className="font-mono text-meta uppercase text-ink-3">
+                {face.name} · {face.role}
+              </p>
+              <p
+                lang="ar"
+                dir="rtl"
+                className={`${face.cls} mt-5 text-[3.5rem] leading-tight`}
+              >
+                أعمال مختارة
+              </p>
+              <p lang="ar" dir="rtl" className={`${face.cls} mt-4 text-h3`}>
+                أفهم · أنظّم · أبني
+              </p>
+              <p lang="ar" dir="rtl" className={`${face.cls} mt-4 text-body`}>
+                عيار · مصنعية · كسر · سبائك
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-block max-w-prose text-body text-ink-2">
+          The bottom line in each column is the Gold ERP glossary — real
+          reading text. It is there to show why the functional face stays Plex:
+          the Kufi faces are built for size, not for reading.
         </p>
       </Section>
 
-      <Section index="01" label="Color + contrast" ar="الألوان">
+      {/* ---------- C. Verb chain, bolder ---------- */}
+      <Section index="02" label="Verb chain" ar="سلسلة الأفعال">
+        <ol className="grid gap-8 md:grid-cols-5">
+          {VERBS.map((verb, i) => (
+            <li key={verb.en} className="border-t border-rule pt-4">
+              <p className="font-mono text-meta text-accent-text">0{i + 1}</p>
+              <p className="mt-2 text-h3">{verb.en}</p>
+              <p
+                aria-hidden="true"
+                lang="ar"
+                dir="rtl"
+                className="ar-kufi mt-2 text-[2.25rem] leading-none text-accent"
+              >
+                {verb.ar}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      {/* ---------- D. Base colour + contrast ---------- */}
+      <Section index="03" label="Colour + contrast" ar="الألوان">
         <div className="overflow-x-auto">
           <table className="w-full min-w-3xl border-collapse text-small">
             <thead>
@@ -189,75 +304,98 @@ export default function SpecimenPage() {
         </div>
       </Section>
 
-      <Section index="02" label="Type scale" ar="المقاسات">
-        <div className="space-y-block">
-          {TYPE_SCALE.map((step) => (
-            <div key={step.token} className="border-t border-rule pt-5">
-              <p className="mb-3 font-mono text-meta uppercase text-ink-3">
-                {step.token}
-              </p>
-              <p className={step.cls}>{step.sample}</p>
-              <p className={step.cls + " mt-2 text-ink-2"}>
-                <Ar className={step.arDisplay ? "ar-display" : undefined}>
-                  {step.ar}
-                </Ar>
-              </p>
-            </div>
-          ))}
+      {/* ---------- E. Per-project brand colour ---------- */}
+      <Section index="04" label="Per-project colour" ar="ألوان المشاريع">
+        <p className="mb-block max-w-prose text-body text-ink-2">
+          Each case study gets a tinted hero band and its own rule, sampled
+          from that product&rsquo;s own screenshots. Raw brand colour is never
+          used for small text — a darkened mix is, and it is checked below.
+        </p>
+
+        <div className="flex flex-col gap-6">
+          {BRANDS.map((brand) => {
+            const tint = mix(brand.color, TOKENS.paper, 0.07);
+            const brandInk = mix(brand.color, TOKENS.ink, 0.72);
+            const onTint = checkContrast(TOKENS.ink, tint);
+            const inkOnPaper = checkContrast(brandInk, TOKENS.paper);
+
+            return (
+              <div
+                key={brand.slug}
+                className="overflow-hidden rounded-figure border border-rule"
+              >
+                <div
+                  className="flex flex-wrap items-center justify-between gap-4 px-6 py-8"
+                  style={{ background: tint }}
+                >
+                  <div>
+                    <p
+                      className="font-mono text-meta uppercase"
+                      style={{ color: brandInk }}
+                    >
+                      Case study
+                    </p>
+                    <p className="mt-2 text-h2">{brand.name}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="inline-block h-10 w-10 rounded-full"
+                      style={{ background: brand.color }}
+                    />
+                    {brand.second ? (
+                      <span
+                        className="inline-block h-10 w-10 rounded-full"
+                        style={{ background: brand.second }}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+                <div
+                  className="h-1"
+                  style={{ background: brand.color }}
+                  aria-hidden="true"
+                />
+                <div className="flex flex-wrap gap-x-8 gap-y-2 px-6 py-4 font-mono text-meta text-ink-3">
+                  <span>brand {brand.color}</span>
+                  <span>tint {tint}</span>
+                  <span>
+                    ink-on-tint {onTint.ratio.toFixed(2)}{" "}
+                    {onTint.normalAA ? "PASS" : "FAIL"}
+                  </span>
+                  <span>
+                    brand-ink {brandInk} on paper {inkOnPaper.ratio.toFixed(2)}{" "}
+                    {inkOnPaper.normalAA ? "PASS" : "FAIL"}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </Section>
 
-      <Section index="03" label="Verb chain" ar="سلسلة الأفعال" tone="band">
+      {/* ---------- F. Motion ---------- */}
+      <Section index="05" label="Motion" ar="الحركة" tone="band">
         <p className="max-w-prose text-lead text-band-muted">
-          The core message as five bilingual verbs. It repeats in the hero, in
-          the process section, and as chapter markers inside every case study.
+          Entrances are scroll-driven CSS with no JavaScript. Hover states are
+          plain transitions on shared duration and easing tokens. Everything
+          below is switched off entirely under reduced motion.
         </p>
-        <ol className="mt-block grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {VERBS.map((verb, i) => (
-            <li key={verb.en}>
-              <p className="font-mono text-meta text-band-muted">0{i + 1}</p>
-              <p className="mt-2 text-h3">{verb.en}</p>
-              <p className="mt-1 text-h3 text-accent-on-band">
-                <Ar decorative>{verb.ar}</Ar>
-              </p>
-            </li>
-          ))}
-        </ol>
-      </Section>
 
-      <Section index="04" label="Components" ar="المكوّنات">
-        <div className="flex flex-wrap items-center gap-4">
-          <a
-            href="#"
-            className="inline-flex h-13 items-center rounded-figure bg-ink px-6 text-paper transition-colors duration-200 hover:bg-accent"
-          >
-            View selected work
-          </a>
-          <a
-            href="#"
-            className="inline-flex h-13 items-center rounded-figure border border-rule-strong px-6 transition-colors duration-200 hover:border-ink"
-          >
-            Get in touch
-          </a>
-          <span className="inline-flex items-center gap-2 rounded-full border border-rule px-3 py-1 font-mono text-meta uppercase text-ink-2">
-            <span aria-hidden="true">●</span> In production
-          </span>
-          <span className="inline-flex items-center rounded-full border border-rule px-3 py-1 font-mono text-meta uppercase text-ink-2">
-            Web · iOS · Android
-          </span>
-        </div>
-        <p className="mt-block max-w-prose text-body text-ink-2">
-          A paragraph at reading width, with an{" "}
-          <a
-            href="#"
-            className="text-accent-text underline decoration-1 underline-offset-4 hover:decoration-2"
-          >
-            inline link
-          </a>{" "}
-          and a domain term that carries its own meaning: <Ar>مصنعية</Ar>{" "}
-          (making charge). Tab through the page to check focus rings on both
-          grounds.
-        </p>
+        <ul className="reveal-stagger mt-block grid gap-6 md:grid-cols-3">
+          {["Fade + rise on entry", "Staggered children", "Hover lift"].map(
+            (item) => (
+              <li
+                key={item}
+                className="rounded-figure border border-band-rule p-6 transition-transform duration-base ease-editorial hover:-translate-y-1"
+              >
+                <p className="text-h3">{item}</p>
+                <p className="mt-2 text-small text-band-muted">
+                  Scroll past this row to see it, then hover.
+                </p>
+              </li>
+            ),
+          )}
+        </ul>
       </Section>
     </>
   );

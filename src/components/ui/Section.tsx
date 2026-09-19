@@ -23,7 +23,10 @@ export function Section({
   return (
     <section
       id={id}
-      className={cn(tone === "band" && "band", "py-section", className)}
+      // Every section enters on scroll. `reveal` is a no-op where
+      // scroll-driven animations are unsupported, and is disabled entirely
+      // under prefers-reduced-motion.
+      className={cn(tone === "band" && "band", "reveal py-section", className)}
     >
       <Container width={width}>{children}</Container>
     </section>

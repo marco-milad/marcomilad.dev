@@ -3,17 +3,43 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { VerbChain } from "./VerbChain";
 
+/**
+ * The Arabic watermark is absolutely positioned on purpose: it is decorative,
+ * it uses a font that is not preloaded, and taking it out of flow means a late
+ * font swap cannot move the headline. No layout shift, no LCP cost.
+ */
 export function Hero() {
   return (
-    <section className="pt-block pb-section">
+    <section className="relative overflow-hidden pt-block pb-section">
       <Container>
         <p className="font-mono text-meta uppercase text-ink-3">
-          {site.role} · {site.location.en}
+          <span className="text-accent-text">{site.role}</span>{" "}
+          <span aria-hidden="true">·</span> {site.location.en}
         </p>
 
-        <h1 className="mt-6 max-w-[14ch] text-display-xl">
-          Product engineer, idea to production.
-        </h1>
+        <div className="relative mt-6">
+          {/* Physical `right`, not `end`: the span carries dir="rtl", which
+              would flip an inset-inline-end onto the left and drop it on top
+              of the headline. The wrapper stays LTR and owns the position.
+              Hidden below md, where there is no room beside the headline. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-[0.12em] right-0 -z-10 hidden select-none md:block"
+          >
+            <span
+              lang="ar"
+              dir="rtl"
+              className="ar-kufi block text-[clamp(5rem,12vw,10rem)] leading-none text-accent-soft"
+            >
+              أبني
+            </span>
+          </div>
+
+          <h1 className="max-w-[13ch] text-display-xl">
+            Product engineer, idea to{" "}
+            <span className="text-accent">production</span>.
+          </h1>
+        </div>
 
         <p className="mt-8 max-w-prose text-lead text-ink-2">
           I take products the whole way: understanding the business, shaping

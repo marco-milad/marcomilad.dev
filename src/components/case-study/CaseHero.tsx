@@ -60,10 +60,30 @@ export function CaseHero({ project }: { project: Project }) {
       : []),
   ];
 
+  // The product's own colour, mixed down to a tint for the band and darkened
+  // for text. Raw brand is used only for the rule and the mark.
+  const tint = `color-mix(in srgb, ${project.brand} 7%, var(--color-paper))`;
+  const brandInk = `color-mix(in srgb, ${project.brand} 72%, var(--color-ink))`;
+
   return (
-    <section className="pt-block pb-section">
+    <section
+      className="border-b-2 pt-block pb-section"
+      style={
+        {
+          background: tint,
+          borderColor: project.brand,
+          // ink-3 only just clears 4.5:1 on plain paper, so it fails on any
+          // tint. Overriding the token here lifts every muted descendant —
+          // fact-sheet labels, figure captions — in one place.
+          "--color-ink-3": "var(--color-ink-2)",
+        } as React.CSSProperties
+      }
+    >
       <Container>
-        <p className="font-mono text-meta uppercase text-ink-3">
+        <p
+          className="font-mono text-meta uppercase"
+          style={{ color: brandInk }}
+        >
           <Twin label={project.category} />
         </p>
 

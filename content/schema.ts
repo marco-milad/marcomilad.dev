@@ -272,6 +272,22 @@ export const projectSchema = z
         note: z.string().optional(),
       })
       .optional(),
+    /**
+     * The product's own colour, sampled from its screenshots. Used for tinted
+     * bands, rules and marks — never for small text, which uses a darkened
+     * mix. Terracotta stays the site-wide through-line.
+     */
+    brand: z
+      .string()
+      .regex(/^#[0-9a-f]{6}$/, "use a lowercase 6-digit hex"),
+    /**
+     * Real build window, YYYY-MM. Drives the concurrency timeline, so it must
+     * match the repository history rather than a rounded guess.
+     */
+    timeline: z.object({
+      start: z.string().regex(/^\d{4}-\d{2}$/),
+      end: z.union([z.string().regex(/^\d{4}-\d{2}$/), z.literal("present")]),
+    }),
     confidentiality: z.enum(["public", "anonymized", "limited"]),
     depth: z.enum(["case-study", "brief"]),
     featured: z.boolean(),

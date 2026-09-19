@@ -35,7 +35,10 @@ export function ProjectRow({
   return (
     <Link
       href={`/work/${project.slug}`}
-      className="group block border-t border-rule pt-8"
+      className="group block border-t-2 pt-8 transition-colors duration-base ease-editorial"
+      // The row is topped by the product's own colour, so Work reads as five
+      // distinct things rather than one template repeated.
+      style={{ borderColor: project.brand }}
     >
       <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
         <div
@@ -62,7 +65,12 @@ export function ProjectRow({
             flip ? "lg:order-1" : "lg:order-2",
           )}
         >
-          <p className="font-mono text-meta uppercase text-ink-3">
+          <p
+            className="font-mono text-meta uppercase"
+            style={{
+              color: `color-mix(in srgb, ${project.brand} 72%, var(--color-ink))`,
+            }}
+          >
             <Twin label={project.category} />
           </p>
 

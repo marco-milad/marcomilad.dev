@@ -19,7 +19,12 @@ export function VerbChain({
   const band = tone === "band";
 
   return (
-    <ol className={cn("flex flex-col gap-3 md:flex-row md:gap-8", className)}>
+    <ol
+      className={cn(
+        "reveal-stagger flex flex-col gap-3 md:flex-row md:gap-8",
+        className,
+      )}
+    >
       {verbChain.map((verb, index) => (
         <li
           key={verb.key}
@@ -42,11 +47,13 @@ export function VerbChain({
             </span>
             <span className="text-h3">{verb.en}</span>
           </span>
+          {/* Full accent strength here — the watermark treatment is the
+              hero's alone. */}
           <Ar
             decorative
             className={cn(
-              "ar-display text-h3",
-              band ? "text-accent-on-band" : "text-accent-text",
+              "ar-kufi text-[1.75rem] leading-none",
+              band ? "text-accent-on-band" : "text-accent",
             )}
           >
             {verb.ar.text}

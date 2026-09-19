@@ -3,6 +3,9 @@ import type { ProjectInput } from "../../schema";
 import activity from "./images/activity.png";
 import buyback from "./images/buyback.png";
 import coins from "./images/coins.png";
+import designs from "./images/designs.png";
+import mBuyback from "./images/m-buyback.png";
+import wholesale from "./images/wholesale.png";
 import mPos from "./images/m-pos.png";
 import mReceiving from "./images/m-receiving.png";
 import prices from "./images/prices.png";
@@ -51,6 +54,8 @@ export const goldErp: ProjectInput = {
     live: "https://mogohrat-lotfy.vercel.app",
     note: "Staff login required — the system has no public side.",
   },
+  brand: "#1e3a5f",
+  timeline: { start: "2026-06", end: "2026-07" },
   confidentiality: "limited",
   depth: "case-study",
   featured: true,
@@ -250,6 +255,14 @@ export const goldErp: ProjectInput = {
         {
           title: "Wholesale on credit",
           body: "Traders withdraw stock against their account and pay over time, with a running balance and a printable statement.",
+          figure: {
+            src: wholesale,
+            alt: "Wholesale customer list in Arabic showing amounts withdrawn, paid and still owed per trader",
+            treatment: "plate",
+            dir: "rtl",
+            locale: "ar",
+            sampleData: true,
+          },
         },
         {
           title: "Suppliers and receiving",
@@ -528,6 +541,24 @@ export const goldErp: ProjectInput = {
           locale: "ar",
           sampleData: true,
           caption: "The point of sale, stacked for a phone.",
+        },
+        {
+          src: mBuyback,
+          alt: "Buy-back on a phone in Arabic, with the purchase lines and the scrap pool per karat as stacked cards",
+          treatment: "phone",
+          dir: "rtl",
+          locale: "ar",
+          sampleData: true,
+          caption: "Buying old gold, with the scrap pool below it.",
+        },
+        {
+          src: designs,
+          alt: "Categories and designs screen in Arabic with default making charges per design",
+          treatment: "plate",
+          dir: "rtl",
+          locale: "ar",
+          sampleData: true,
+          caption: "Item templates carry the making charge that pricing reads.",
         },
       ],
     },

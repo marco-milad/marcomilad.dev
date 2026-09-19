@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import portrait from "@content/about/portrait.jpg";
+import working from "@content/about/working.jpg";
 import { certifications, education, experience } from "@content/experience";
 import { lexicon } from "@content/lexicon";
 import { site } from "@content/site";
@@ -88,6 +89,25 @@ export default function AboutPage() {
           lead="The same five stages every project goes through — described in full on the home page, with a real artifact behind each one."
         />
         <VerbChain tone="band" />
+
+        <div className="mt-section grid items-center gap-block lg:grid-cols-12 lg:gap-16">
+          <figure className="lg:col-span-5">
+            <Image
+              src={working}
+              alt="Marco Milad outdoors in Cairo"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              placeholder="blur"
+              loading="lazy"
+              className="h-auto w-full rounded-figure"
+            />
+          </figure>
+          <p className="max-w-prose text-lead text-band-fg lg:col-span-7">
+            Most of this work happens remotely, for clients in Cairo and
+            further out. The part I care about is the same either way: being
+            close enough to the business to know which constraint is the real
+            one.
+          </p>
+        </div>
       </Section>
 
       <Section id="experience">

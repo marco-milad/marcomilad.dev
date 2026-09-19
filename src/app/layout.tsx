@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  IBM_Plex_Sans_Arabic,
+  Reem_Kufi,
+} from "next/font/google";
 import { site } from "@content/site";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -29,6 +34,24 @@ const plexArabic = IBM_Plex_Sans_Arabic({
   // was being downloaded and never drawn.
   weight: ["400"],
   display: "swap",
+  adjustFontFallback: false,
+  fallback: ["Segoe UI", "Tahoma", "sans-serif"],
+});
+
+/**
+ * Display Arabic, chosen over Noto Kufi at the specimen for having more
+ * personality at size. Decorative use only — reading Arabic stays in Plex.
+ *
+ * preload stays off: every use of it is either below the fold or absolutely
+ * positioned, so a late swap cannot move layout, and the hero LCP is not made
+ * to wait on a font that draws a watermark.
+ */
+const reemKufi = Reem_Kufi({
+  variable: "--font-reem-kufi",
+  subsets: ["arabic"],
+  weight: ["400", "600"],
+  display: "swap",
+  preload: false,
   adjustFontFallback: false,
   fallback: ["Segoe UI", "Tahoma", "sans-serif"],
 });
@@ -67,7 +90,7 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
-      className={`${geistSans.variable} ${geistMono.variable} ${plexArabic.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${plexArabic.variable} ${reemKufi.variable}`}
     >
       <body className="flex min-h-dvh flex-col">
         <SkipLink />
