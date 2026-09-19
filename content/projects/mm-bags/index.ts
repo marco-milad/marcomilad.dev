@@ -139,6 +139,14 @@ export const mmBags: ProjectInput = {
       ],
     },
     {
+      type: "approach",
+      title: "The shape of the product",
+      body: [
+        "Two decisions came before any screen. The first was that this is one system, not a website plus an admin tool bought separately: the storefront and the shop counter read and write the same stock, because they are selling the same physical bags.",
+        "The second was that Arabic is the default and English is the alternate — not a language toggle added at the end. The customer this shop actually serves reads Arabic on a phone, on a network that is not fast, so that is the case the design starts from and the English version mirrors.",
+      ],
+    },
+    {
       type: "solution",
       title: "The storefront",
       body: [
