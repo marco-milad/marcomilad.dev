@@ -18,10 +18,12 @@ export const site = {
 
   email: "miladmarco68@gmail.com",
 
-  // TODO(marco): confirm both handles before launch — taken from the previous
-  // portfolio repo, not from the CV (its links are compressed in the PDF).
   links: {
-    linkedin: "https://www.linkedin.com/in/marco-milad194286328/",
+    // Confirmed by Marco 2026-09-19.
+    linkedin: "https://www.linkedin.com/in/marco-milad-engineer",
+    // TODO(marco): GitHub URL still unconfirmed — the value below is the handle
+    // from the previous portfolio repo and has NOT been verified. Replace it
+    // before launch; do not publish an unverified profile link.
     github: "https://github.com/marco-milad",
   },
 
