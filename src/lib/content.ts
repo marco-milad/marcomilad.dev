@@ -90,27 +90,40 @@ export function getChapters(project: Project): {
   return { intro, chapters };
 }
 
-/** Facts for the home proof strip — derived, never hand-maintained. */
+/**
+ * Facts for the home proof strip.
+ *
+ * Every line is derived from the case-study data, so the strip cannot claim
+ * anything the projects do not. No years-of-experience, no invented counts.
+ */
 export function getProofFacts(): string[] {
   const all = getAllProjects();
   const platforms = new Set(all.flatMap((project) => project.platforms));
   const languages = new Set(all.flatMap((project) => project.languages));
-  const inProduction = all.filter(
-    (project) => project.status === "production",
-  ).length;
 
   const facts = [`${all.length} shipped products`];
 
-  if (inProduction > 0) facts.push(`${inProduction} running in production`);
-
   const surfaces = [
-    platforms.has("web") && "Web",
+    (platforms.has("web") || platforms.has("admin")) && "Web",
     platforms.has("ios") && "iOS",
     platforms.has("android") && "Android",
   ].filter(Boolean);
   if (surfaces.length > 0) facts.push(surfaces.join(" · "));
 
   if (languages.has("ar")) facts.push("Arabic RTL in production");
+
+  const postgresBacked = all.filter((project) =>
+    project.stack.includes("postgres"),
+  ).length;
+  if (postgresBacked >= 2) facts.push("Postgres-backed business systems");
+
+  // The headline trio, shown only if the projects actually use them.
+  const headline = (["nextjs", "react", "typescript"] as const).filter((id) =>
+    all.some((project) => project.stack.includes(id)),
+  );
+  if (headline.length > 0) {
+    facts.push(headline.map((id) => stack[id].name).join(" / "));
+  }
 
   return facts;
 }
