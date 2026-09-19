@@ -19,11 +19,11 @@ export const site = {
   email: "miladmarco68@gmail.com",
 
   links: {
-    // Confirmed by Marco 2026-09-19.
+    // Given by Marco 2026-09-19. LinkedIn answers bots with 999/403, so this
+    // one cannot be machine-verified — note the CV PDF still links to the older
+    // /in/marco-milad-194286328 slug, which should be updated to match.
     linkedin: "https://www.linkedin.com/in/marco-milad-engineer",
-    // TODO(marco): GitHub URL still unconfirmed — the value below is the handle
-    // from the previous portfolio repo and has NOT been verified. Replace it
-    // before launch; do not publish an unverified profile link.
+    // Confirmed: taken from the CV's own hyperlink, and resolves (200).
     github: "https://github.com/marco-milad",
   },
 
