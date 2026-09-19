@@ -178,7 +178,12 @@ export const sectionSchema = z.discriminatedUnion("type", [
     body: proseSchema,
     figure: imageSchema.optional(),
   }),
-  z.object({ ...base, type: z.literal("outcome"), body: proseSchema }),
+  z.object({
+    ...base,
+    type: z.literal("outcome"),
+    body: proseSchema,
+    figure: imageSchema.optional(),
+  }),
   z.object({ ...base, type: z.literal("lessons"), body: proseSchema }),
   z.object({
     ...base,

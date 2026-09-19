@@ -58,13 +58,25 @@ export function SectionRenderer({
     case "overview":
     case "challenge":
     case "approach":
-    case "outcome":
     case "lessons":
     case "rtlNote":
       return (
         <section>
           <BlockHeading title={section.title} tone={tone} />
           <Prose paragraphs={section.body} tone={tone} />
+        </section>
+      );
+
+    case "outcome":
+      return (
+        <section>
+          <BlockHeading title={section.title} tone={tone} />
+          <Prose paragraphs={section.body} tone={tone} />
+          {section.figure ? (
+            <div className="mt-10">
+              <ProjectImage asset={section.figure} tone={tone} />
+            </div>
+          ) : null}
         </section>
       );
 

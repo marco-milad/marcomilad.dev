@@ -61,6 +61,7 @@ export const goldErp: ProjectInput = {
     src: prices,
     alt: "Daily gold pricing screen in Arabic showing buy and sell prices per gram for karats 24, 22, 21, 18 and 14, with the update form below",
     treatment: "browser",
+    url: "mogohrat-lotfy.vercel.app",
     dir: "rtl",
     locale: "ar",
     sampleData: true,
