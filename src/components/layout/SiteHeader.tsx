@@ -14,13 +14,15 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-6">
             <MainNav />
-            <Button
-              href={site.cta.href}
-              size="md"
-              className="hidden md:inline-flex"
-            >
-              {site.cta.label.en}
-            </Button>
+            {/* Wrapper, not `hidden md:inline-flex` on the Button: the button
+                already sets inline-flex, and two display utilities on one
+                element are resolved by stylesheet order, not class order —
+                which showed the CTA at phone width. */}
+            <div className="hidden md:block">
+              <Button href={site.cta.href} size="md">
+                {site.cta.label.en}
+              </Button>
+            </div>
             <MobileMenu />
           </div>
         </div>

@@ -20,13 +20,18 @@ export function Wordmark({
 }) {
   const content = (
     <>
-      <span>{site.displayName}</span>
-      <span aria-hidden="true" className="mx-2 text-ink-3">
+      <span className="whitespace-nowrap">{site.displayName}</span>
+      {/* The pair needs room. Below sm the Arabic name would wrap the
+          wordmark onto two lines, so it steps aside there. */}
+      <span aria-hidden="true" className="mx-2 hidden text-ink-3 sm:inline">
         ·
       </span>
       <Ar
         decorative={site.nameAr.decorative}
-        className={cn("ar-display", tone === "band" && "text-band-fg")}
+        className={cn(
+          "ar-display hidden sm:inline",
+          tone === "band" && "text-band-fg",
+        )}
       >
         {site.nameAr.text}
       </Ar>
