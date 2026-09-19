@@ -1,4 +1,4 @@
-import type { Section } from "@content/schema";
+﻿import type { Section } from "@content/schema";
 import { cn } from "@/lib/cn";
 import { Ar } from "@/components/ui/Ar";
 import { Badge } from "@/components/ui/Badge";
@@ -28,15 +28,27 @@ function Prose({ paragraphs, tone }: { paragraphs: string[]; tone: Tone }) {
   );
 }
 
+/**
+ * Intro sections sit directly under the page h1, so they are h2. Sections
+ * inside a chapter sit under the chapter's own h2, so they are h3. Passing
+ * the level keeps the outline correct instead of hardcoding one depth.
+ */
 function BlockHeading({
   title,
   tone,
+  level,
 }: {
   title: string | undefined;
   tone: Tone;
+  level: 2 | 3;
 }) {
   if (!title) return null;
-  return <h3 className={cn("mb-6 text-h2", tone === "band" && "text-band-fg")}>{title}</h3>;
+  const Tag = level === 2 ? "h2" : "h3";
+  return (
+    <Tag className={cn("mb-6 text-h2", tone === "band" && "text-band-fg")}>
+      {title}
+    </Tag>
+  );
 }
 
 /**
@@ -46,9 +58,11 @@ function BlockHeading({
 export function SectionRenderer({
   section,
   tone = "paper",
+  headingLevel = 3,
 }: {
   section: Section;
   tone?: Tone;
+  headingLevel?: 2 | 3;
 }) {
   const band = tone === "band";
   const muted = band ? "text-band-muted" : "text-ink-3";
@@ -61,7 +75,7 @@ export function SectionRenderer({
     case "lessons":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <Prose paragraphs={section.body} tone={tone} />
         </section>
       );
@@ -70,7 +84,7 @@ export function SectionRenderer({
     case "outcome":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <Prose paragraphs={section.body} tone={tone} />
           {section.figure ? (
             <div className="mt-10">
@@ -83,7 +97,7 @@ export function SectionRenderer({
     case "role":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
               <Prose paragraphs={section.body} tone={tone} />
@@ -142,7 +156,7 @@ export function SectionRenderer({
     case "requirements":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
               <Prose paragraphs={section.body} tone={tone} />
@@ -182,7 +196,7 @@ export function SectionRenderer({
     case "solution":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <Prose paragraphs={section.body} tone={tone} />
           {section.figure ? (
             <div className="mt-10">
@@ -195,7 +209,7 @@ export function SectionRenderer({
     case "features":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <div className="grid gap-10 md:grid-cols-2">
             {section.items.map((item) => (
               <div key={item.title}>
@@ -222,7 +236,7 @@ export function SectionRenderer({
     case "architecture":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
               <Prose paragraphs={section.body} tone={tone} />
@@ -240,7 +254,7 @@ export function SectionRenderer({
     case "highlights":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <ul className="grid gap-8 md:grid-cols-2">
             {section.items.map((item) => (
               <li key={item.title}>
@@ -257,7 +271,7 @@ export function SectionRenderer({
     case "decisions":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <div className="flex flex-col gap-16">
             {section.stories.map((story, index) => (
               <DecisionStoryBlock
@@ -274,7 +288,7 @@ export function SectionRenderer({
     case "quality":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
               <Prose paragraphs={section.body} tone={tone} />
@@ -306,7 +320,7 @@ export function SectionRenderer({
     case "delivery":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <Prose paragraphs={section.body} tone={tone} />
           {section.figure ? (
             <div className="mt-10">
@@ -319,7 +333,7 @@ export function SectionRenderer({
     case "glossary":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
               <Prose paragraphs={section.body} tone={tone} />
@@ -347,7 +361,7 @@ export function SectionRenderer({
     case "mirror":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
               <Prose paragraphs={section.body} tone={tone} />
@@ -373,7 +387,7 @@ export function SectionRenderer({
     case "gallery":
       return (
         <section>
-          <BlockHeading title={section.title} tone={tone} />
+          <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {"body" in section && section.body ? (
             <div className="mb-8">
               <Prose paragraphs={section.body} tone={tone} />
@@ -395,3 +409,4 @@ export function SectionRenderer({
       );
   }
 }
+

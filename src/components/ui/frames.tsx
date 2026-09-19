@@ -37,7 +37,9 @@ export function BrowserFrame({
           "flex h-9 items-center border-b px-4 font-mono text-meta",
           tone === "band"
             ? "border-band-rule bg-band text-band-muted"
-            : "border-rule bg-paper-sunk text-ink-3",
+            : // ink-2, not ink-3: the sunk plate is darker than paper, and
+              // ink-3 falls under 4.5:1 against it.
+              "border-rule bg-paper-sunk text-ink-2",
         )}
       >
         {url ? <span className="truncate">{url}</span> : null}

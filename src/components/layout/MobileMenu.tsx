@@ -13,6 +13,7 @@ import { Ar } from "@/components/ui/Ar";
  */
 export function MobileMenu() {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -30,17 +31,25 @@ export function MobileMenu() {
   return (
     <div className="md:hidden">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         className="inline-flex h-11 items-center rounded-figure border border-rule-strong px-4 text-small"
         aria-haspopup="dialog"
+        aria-expanded={open}
       >
         Menu
       </button>
 
       <dialog
         ref={dialogRef}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          // Return focus to the trigger. The browser restores focus to the
+          // invoker only if it is still the same element after the close, and
+          // a re-render can lose that — so put it back explicitly.
+          triggerRef.current?.focus();
+        }}
         aria-label="Site menu"
         className="h-dvh max-h-none w-screen max-w-none bg-paper p-0 text-ink backdrop:bg-ink/40"
       >

@@ -24,7 +24,10 @@ const geistMono = Geist_Mono({
 const plexArabic = IBM_Plex_Sans_Arabic({
   variable: "--font-plex-arabic",
   subsets: ["arabic"],
-  weight: ["400", "600"],
+  // 400 only: measured on the built site, every Arabic run computes to 400 or
+  // 500, and 500 resolves down to 400 when no 500 face exists. The 600 file
+  // was being downloaded and never drawn.
+  weight: ["400"],
   display: "swap",
   adjustFontFallback: false,
   fallback: ["Segoe UI", "Tahoma", "sans-serif"],

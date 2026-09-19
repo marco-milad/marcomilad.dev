@@ -31,6 +31,7 @@ export default function WorkPage() {
             project={project}
             index={index}
             priority={index === 0}
+            headingLevel={2}
           />
         ))}
       </div>

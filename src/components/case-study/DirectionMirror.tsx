@@ -43,7 +43,13 @@ export function DirectionMirror({
     <div>
       {/* Phone and tablet: wipe comparison */}
       <div className="lg:hidden">
-        <div className="relative overflow-hidden rounded-figure border border-rule">
+        <div
+          className={
+            tone === "band"
+              ? "relative overflow-hidden rounded-figure border border-band-rule"
+              : "relative overflow-hidden rounded-figure border border-rule"
+          }
+        >
           <Image
             src={ltr.src}
             alt={ltr.alt}
@@ -70,7 +76,16 @@ export function DirectionMirror({
           />
         </div>
 
-        <label htmlFor={id} className="mt-4 block text-small text-ink-2">
+        {/* This block renders inside the ink band on case studies, so it has
+            to take the tone — ink-2 on the dark ground fails contrast. */}
+        <label
+          htmlFor={id}
+          className={
+            tone === "band"
+              ? "mt-4 block text-small text-band-fg"
+              : "mt-4 block text-small text-ink-2"
+          }
+        >
           Drag to compare — English (left) and Arabic (right)
         </label>
         <input
@@ -80,7 +95,11 @@ export function DirectionMirror({
           max={100}
           value={position}
           onChange={(event) => setPosition(Number(event.target.value))}
-          className="mt-2 w-full accent-accent"
+          className={
+            tone === "band"
+              ? "mt-2 w-full accent-accent-on-band"
+              : "mt-2 w-full accent-accent"
+          }
         />
       </div>
 
@@ -88,7 +107,7 @@ export function DirectionMirror({
       <div className="hidden gap-8 lg:grid lg:grid-cols-2">
         <div>
           {label(ltr, "Left to right")}
-          <div className="mt-3 overflow-hidden rounded-figure border border-rule">
+          <div className={tone === "band" ? "mt-3 overflow-hidden rounded-figure border border-band-rule" : "mt-3 overflow-hidden rounded-figure border border-rule"}>
             <Image
               src={ltr.src}
               alt={ltr.alt}
@@ -100,7 +119,7 @@ export function DirectionMirror({
         </div>
         <div>
           {label(rtl, "Right to left")}
-          <div className="mt-3 overflow-hidden rounded-figure border border-rule">
+          <div className={tone === "band" ? "mt-3 overflow-hidden rounded-figure border border-band-rule" : "mt-3 overflow-hidden rounded-figure border border-rule"}>
             <Image
               src={rtl.src}
               alt={rtl.alt}

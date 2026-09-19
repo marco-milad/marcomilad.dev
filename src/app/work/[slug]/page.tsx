@@ -79,7 +79,12 @@ export default async function CaseStudyPage({
         <Container>
           <div className="flex flex-col gap-section border-t border-rule pt-section">
             {intro.map((section, index) => (
-              <SectionRenderer key={`${section.type}-${index}`} section={section} />
+              // Intro sections sit directly under the page h1.
+              <SectionRenderer
+                key={`${section.type}-${index}`}
+                section={section}
+                headingLevel={2}
+              />
             ))}
           </div>
         </Container>

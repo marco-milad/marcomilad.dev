@@ -21,12 +21,16 @@ export function ProjectRow({
   project,
   index,
   priority = false,
+  headingLevel = 3,
 }: {
   project: Project;
   index: number;
   priority?: boolean;
+  /** h2 on /work, where rows sit under the page h1; h3 under a section h2. */
+  headingLevel?: 2 | 3;
 }) {
   const flip = index % 2 === 1;
+  const Heading = headingLevel === 2 ? "h2" : "h3";
 
   return (
     <Link
@@ -62,7 +66,7 @@ export function ProjectRow({
             <Twin label={project.category} />
           </p>
 
-          <h3 className="mt-4 text-h2">{project.title}</h3>
+          <Heading className="mt-4 text-h2">{project.title}</Heading>
 
           <p className="mt-3 text-lead text-ink-2">{project.positioning}</p>
 

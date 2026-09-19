@@ -29,49 +29,44 @@ export function MetricList({
   return (
     <dl className={cn("grid gap-px overflow-hidden border", rule, band ? "bg-band-rule" : "bg-rule")}>
       {metrics.map((metric) => (
+        // A dl group may contain only dt and dd as direct children, so the
+        // method and provenance live inside the dd rather than beside the dt.
         <div
           key={metric.label}
           className={cn(
-            "flex flex-col gap-4 p-6 md:flex-row md:items-baseline md:justify-between md:gap-8",
+            "grid gap-4 p-6 md:grid-cols-[2fr_3fr] md:items-baseline md:gap-8",
             band ? "bg-band" : "bg-paper-raised",
           )}
         >
-          <div className="md:w-2/5">
-            <dt className="text-h3">{metric.label}</dt>
-            <p className={cn("mt-2 text-small", muted)}>{metric.method}.</p>
-            <p
-              className={cn(
-                "mt-2 font-mono text-meta uppercase",
-                band ? "text-band-muted" : "text-ink-3",
-              )}
-            >
-              {VERIFICATION_LABEL[metric.verification]}
-            </p>
-          </div>
+          <dt className="text-h3">{metric.label}</dt>
 
-          <dd className="flex items-baseline gap-4 md:justify-end">
-            {metric.before ? (
-              <>
-                <span
-                  className={cn(
-                    "text-h3 line-through decoration-1",
-                    muted,
-                  )}
-                >
-                  {metric.before}
-                </span>
-                <span aria-hidden="true" className={muted}>
-                  →
-                </span>
-              </>
-            ) : null}
-            <span
-              className={cn(
-                "text-h2",
-                band ? "text-accent-on-band" : "text-accent-text",
-              )}
-            >
-              {metric.after}
+          <dd className="flex flex-col gap-3">
+            <span className="flex flex-wrap items-baseline gap-4">
+              {metric.before ? (
+                <>
+                  <span
+                    className={cn("text-h3 line-through decoration-1", muted)}
+                  >
+                    {metric.before}
+                  </span>
+                  <span aria-hidden="true" className={muted}>
+                    →
+                  </span>
+                </>
+              ) : null}
+              <span
+                className={cn(
+                  "text-h2",
+                  band ? "text-accent-on-band" : "text-accent-text",
+                )}
+              >
+                {metric.after}
+              </span>
+            </span>
+
+            <span className={cn("text-small", muted)}>{metric.method}.</span>
+            <span className={cn("font-mono text-meta uppercase", muted)}>
+              {VERIFICATION_LABEL[metric.verification]}
             </span>
           </dd>
         </div>
