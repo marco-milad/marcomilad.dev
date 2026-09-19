@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SkipLink } from "@/components/layout/SkipLink";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -45,7 +48,14 @@ export default function RootLayout({
       dir="ltr"
       className={`${geistSans.variable} ${geistMono.variable} ${plexArabic.variable}`}
     >
-      <body>{children}</body>
+      <body className="flex min-h-dvh flex-col">
+        <SkipLink />
+        <SiteHeader />
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <SiteFooter />
+      </body>
     </html>
   );
 }

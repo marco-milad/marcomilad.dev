@@ -118,7 +118,7 @@ export default function SpecimenPage() {
   }
 
   return (
-    <main>
+    <>
       <Section index="00" label="Specimen" ar="نموذج">
         <h1 className="text-display-xl">
           Eng. Marco Milad <span aria-hidden="true">·</span>{" "}
@@ -259,6 +259,6 @@ export default function SpecimenPage() {
           grounds.
         </p>
       </Section>
-    </main>
+    </>
   );
 }
