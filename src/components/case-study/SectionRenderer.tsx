@@ -59,7 +59,6 @@ export function SectionRenderer({
     case "challenge":
     case "approach":
     case "lessons":
-    case "rtlNote":
       return (
         <section>
           <BlockHeading title={section.title} tone={tone} />
@@ -67,6 +66,7 @@ export function SectionRenderer({
         </section>
       );
 
+    case "rtlNote":
     case "outcome":
       return (
         <section>

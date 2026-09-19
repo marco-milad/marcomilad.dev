@@ -217,6 +217,7 @@ export const sectionSchema = z.discriminatedUnion("type", [
     ...base,
     type: z.literal("rtlNote"),
     body: proseSchema,
+    figure: imageSchema.optional(),
   }),
 ]);
 

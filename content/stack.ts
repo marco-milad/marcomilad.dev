@@ -28,6 +28,7 @@ export const stack = {
   puppeteer: { name: "Puppeteer", group: "backend" },
   resend: { name: "Resend", group: "backend" },
   twilio: { name: "Twilio", group: "backend" },
+  stripe: { name: "Stripe", group: "backend" },
 
   // --- mobile ---
   capacitor: { name: "Capacitor", group: "mobile" },
