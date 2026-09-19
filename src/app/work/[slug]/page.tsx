@@ -8,6 +8,8 @@ import { CaseHero } from "@/components/case-study/CaseHero";
 import { ChapterRail } from "@/components/case-study/ChapterRail";
 import { ProjectImage } from "@/components/case-study/ProjectImage";
 import { SectionRenderer } from "@/components/case-study/SectionRenderer";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import {
   getAdjacentProject,
   getAllProjects,
@@ -35,6 +37,13 @@ export async function generateMetadata({
     title: project.seo.title,
     description: project.seo.description,
     alternates: { canonical: `/work/${project.slug}` },
+    openGraph: {
+      type: "article",
+      title: project.seo.title,
+      description: project.seo.description,
+      url: `/work/${project.slug}`,
+      publishedTime: project.updatedAt,
+    },
   };
 }
 
@@ -53,6 +62,16 @@ export default async function CaseStudyPage({
 
   return (
     <article>
+      <JsonLd
+        data={[
+          articleJsonLd(project),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Work", path: "/work" },
+            { name: project.title, path: `/work/${project.slug}` },
+          ]),
+        ]}
+      />
       <CaseHero project={project} />
 
       {/* Intro sections sit above the chapter structure. */}

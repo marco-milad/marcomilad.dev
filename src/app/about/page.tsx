@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { VerbChain } from "@/components/home/VerbChain";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getProject } from "@/lib/content";
+import { breadcrumbJsonLd, personJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "About",
@@ -21,6 +23,16 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          personJsonLd(),
+          websiteJsonLd(),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+          ]),
+        ]}
+      />
       <Section>
         <div className="grid gap-block lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">

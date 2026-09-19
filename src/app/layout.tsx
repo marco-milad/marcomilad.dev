@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { site } from "@content/site";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -30,13 +31,30 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://marcomilad.dev"),
+  metadataBase: new URL(site.url),
   title: {
-    default: "Eng. Marco Milad — Product Engineer",
+    default: "Marco Milad — Product Engineer (React, Next.js, TypeScript)",
     template: "%s — Marco Milad",
   },
   description:
     "Product engineer taking digital products from idea to production. React, Next.js and TypeScript, full-stack on Postgres.",
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  // Single-language document: Arabic appears as tagged islands, not as an
+  // alternate version of the site, so there is no hreflang here.
+  openGraph: {
+    type: "website",
+    locale: "en",
+    siteName: `${site.displayName} · ${site.nameAr.text}`,
+    url: site.url,
+  },
+  twitter: { card: "summary_large_image" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 export default function RootLayout({
