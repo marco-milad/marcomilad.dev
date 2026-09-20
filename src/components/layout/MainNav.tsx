@@ -35,7 +35,12 @@ export function MainNav() {
               {isActive && item.label.ar ? (
                 <>
                   {" "}
-                  <Ar decorative className="text-accent-text">
+                  {/* nowrap: the twin drops under the English when there is no
+                      room beside it, which is the intended active state — but
+                      a two-word twin like "من أنا" was breaking across those
+                      two lines and reading as two fragments. It moves as one
+                      word or not at all. */}
+                  <Ar decorative className="whitespace-nowrap text-accent-text">
                     {item.label.ar.text}
                   </Ar>
                 </>
