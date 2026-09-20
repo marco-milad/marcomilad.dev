@@ -14,10 +14,10 @@ import { StackMap } from "@/components/home/StackMap";
 export const metadata: Metadata = {
   // absolute: the layout's "%s — Marco Milad" template would duplicate the name.
   title: {
-    absolute: "Marco Milad — Product Engineer (React, Next.js, TypeScript)",
+    absolute: "Marco Milad — Software Engineer (React, Next.js, TypeScript)",
   },
   description:
-    "Product engineer in Cairo taking digital products from idea to production: e-commerce and retail operations, ERP and POS, enterprise platforms and AI products.",
+    "Software engineer in Cairo taking digital products from idea to production: e-commerce and retail operations, ERP and POS, enterprise platforms and AI products.",
   alternates: { canonical: "/" },
 };
 

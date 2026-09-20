@@ -35,7 +35,7 @@ export const ojosStudio: ProjectInput = {
   // The lone 2025-01 commit is the scaffold's stamp, not work.
   duration: "December 2025 – January 2026",
   status: "delivered",
-  role: "Product engineer, end to end",
+  role: "Software engineer, end to end",
   platforms: ["web"],
   languages: ["en"],
   stack: [

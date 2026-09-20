@@ -22,7 +22,7 @@ export function Background() {
       <div className="grid gap-block lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <p className="max-w-prose text-body text-ink-2" {...reveal(0)}>
-            I am a product engineer in {site.location.en}, working end to end:
+            I am a software engineer in {site.location.en}, working end to end:
             requirements and business analysis at one end, production
             deployment and whatever the first version got wrong at the other.
           </p>

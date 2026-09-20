@@ -26,7 +26,7 @@ function knowsAbout(): string[] {
   }
 
   return [
-    "Product engineering",
+    "Software engineering",
     "Full-stack development",
     "Right-to-left and Arabic localization",
     ...[...technologies].sort(),

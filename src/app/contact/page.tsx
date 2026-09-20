@@ -12,7 +12,7 @@ import { ContactForm } from "@/components/contact/ContactForm";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Marco Milad — product engineering roles, and selected client work.",
+    "Get in touch with Marco Milad — software engineering roles, and selected client work.",
   alternates: { canonical: "/contact" },
 };
 

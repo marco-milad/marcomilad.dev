@@ -11,7 +11,8 @@ export const site = {
   displayName: "Eng. Marco Milad",
   /** Arabic name — meaningful, so it is NOT hidden from screen readers. */
   nameAr: ar("ماركو ميلاد", { decorative: false }),
-  role: "Product Engineer",
+  /** Matches the CV's own header: "Marco Milad Mankaruios | Software Engineer". */
+  role: "Software Engineer",
   location: { en: "Cairo, Egypt", ar: ar("القاهرة") },
 
   url: "https://marcomilad.dev",

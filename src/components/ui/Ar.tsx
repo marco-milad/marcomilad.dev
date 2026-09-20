@@ -18,9 +18,17 @@ type ArProps = {
  * lang + dir make the screen reader switch voice and isolate the bidi run, so
  * punctuation around it does not flip. Styling lives in the `.ar` class.
  */
-export function Ar({ children, decorative = false, className }: ArProps) {
+export function Ar({
+  children,
+  decorative = false,
+  className,
+  // Reveal attributes and the like pass through, so an Arabic twin can take
+  // its own beat in a cascade.
+  ...rest
+}: ArProps & Omit<React.ComponentPropsWithoutRef<"span">, "children">) {
   return (
     <span
+      {...rest}
       lang="ar"
       dir="rtl"
       aria-hidden={decorative || undefined}

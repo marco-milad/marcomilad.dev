@@ -34,10 +34,15 @@ export function MobileMenu() {
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-11 items-center rounded-figure border border-rule-strong px-4 text-small"
+        className="inline-flex h-11 items-center gap-2 rounded-figure border border-rule-strong px-4 text-small transition-colors duration-200 ease-editorial hover:border-ink"
         aria-haspopup="dialog"
         aria-expanded={open}
       >
+        <span aria-hidden="true" className="flex flex-col gap-[3px]">
+          <span className="block h-px w-4 bg-ink" />
+          <span className="block h-px w-4 bg-ink" />
+          <span className="block h-px w-4 bg-ink" />
+        </span>
         Menu
       </button>
 
@@ -53,20 +58,27 @@ export function MobileMenu() {
         aria-label="Site menu"
         className="h-dvh max-h-none w-screen max-w-none bg-paper p-0 text-ink backdrop:bg-ink/40"
       >
-        <div className="flex h-full flex-col px-gutter py-6">
-          <div className="flex items-center justify-end">
+        <div className="menu-panel flex h-full flex-col px-gutter py-6">
+          <div className="flex items-center justify-between">
+            <p className="font-mono text-meta uppercase text-ink-3">
+              {site.role}
+            </p>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="inline-flex h-11 items-center rounded-figure border border-rule-strong px-4 text-small"
+              className="inline-flex h-11 items-center gap-2 rounded-figure border border-rule-strong px-4 text-small transition-colors duration-200 ease-editorial hover:border-ink"
             >
+              <span aria-hidden="true" className="relative block h-3 w-3">
+                <span className="absolute inset-x-0 top-1/2 block h-px rotate-45 bg-ink" />
+                <span className="absolute inset-x-0 top-1/2 block h-px -rotate-45 bg-ink" />
+              </span>
               Close
             </button>
           </div>
 
           <nav aria-label="Site" className="mt-block">
             <ul className="flex flex-col gap-8">
-              {footerNav.map((item) => {
+              {footerNav.map((item, index) => {
                 const isActive =
                   !item.external &&
                   (pathname === item.href ||
@@ -87,7 +99,13 @@ export function MobileMenu() {
                 );
 
                 return (
-                  <li key={item.href}>
+                  <li
+                    key={item.href}
+                    className="menu-item"
+                    // The rows arrive in order, on the same ~70ms beat the
+                    // rest of the site uses.
+                    style={{ animationDelay: `${index * 70}ms` }}
+                  >
                     {item.external ? (
                       <a
                         href={item.href}
@@ -115,13 +133,44 @@ export function MobileMenu() {
             </ul>
           </nav>
 
-          <div className="mt-auto pt-block">
-            <a
-              href={`mailto:${site.email}`}
-              className="font-mono text-small break-all text-ink-2"
+          {/* The desktop header carries the call to action; without this the
+              phone menu was the one place on the site that did not. */}
+          <div
+            className="menu-item mt-auto flex flex-col gap-5 pt-block"
+            style={{ animationDelay: `${footerNav.length * 70}ms` }}
+          >
+            <Link
+              href={site.cta.href}
+              onClick={() => setOpen(false)}
+              className="inline-flex h-13 items-center justify-center rounded-figure bg-ink px-6 font-medium text-paper transition-colors duration-200 ease-editorial hover:bg-accent"
             >
-              {site.email}
-            </a>
+              {site.cta.label.en}
+            </Link>
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-rule pt-5 text-small">
+              <a
+                href={`mailto:${site.email}`}
+                className="font-mono text-meta break-all text-ink-2"
+              >
+                {site.email}
+              </a>
+              {[
+                { label: "LinkedIn", href: site.links.linkedin },
+                { label: "GitHub", href: site.links.github },
+                { label: "WhatsApp", href: site.links.whatsapp },
+              ].map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ink-2 underline decoration-1 underline-offset-4 hover:decoration-2"
+                >
+                  {link.label}
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </dialog>

@@ -3,6 +3,7 @@ import { Geist_Mono, Qahiri, Readex_Pro } from "next/font/google";
 import { site } from "@content/site";
 import { Reveals } from "@/components/motion/Reveals";
 import { RevealScript } from "@/components/motion/RevealScript";
+import { HeaderScroll } from "@/components/layout/HeaderScroll";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -61,11 +62,11 @@ const qahiri = Qahiri({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Marco Milad — Product Engineer (React, Next.js, TypeScript)",
+    default: "Marco Milad — Software Engineer (React, Next.js, TypeScript)",
     template: "%s — Marco Milad",
   },
   description:
-    "Product engineer taking digital products from idea to production. React, Next.js and TypeScript, full-stack on Postgres.",
+    "Software engineer taking digital products from idea to production. React, Next.js and TypeScript, full-stack on Postgres.",
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
@@ -99,6 +100,9 @@ export default function RootLayout({
             rest of the document is still being parsed, so nothing is ever
             painted and then pulled away. */}
         <RevealScript />
+        {/* Sits above the header in the document so it can tell when the page
+            has scrolled; inside the sticky header it would never move. */}
+        <HeaderScroll />
         <SkipLink />
         <SiteHeader />
         <SocialRail />

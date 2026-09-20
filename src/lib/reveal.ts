@@ -32,8 +32,14 @@ const MAX_STEPS = 7;
 type RevealOptions = {
   /** Override the beat — a tighter one suits dense rows. */
   step?: number;
-  /** Travel distance in px. Smaller for meta text, larger for full blocks. */
+  /** Vertical travel in px. Smaller for meta text, larger for full blocks. */
   shift?: number;
+  /**
+   * Horizontal travel in px, for the few things that should arrive from the
+   * side rather than from below — the hero watermark drifts in from the edge
+   * it sits on. Positive is to the right.
+   */
+  shiftX?: number;
   /** Merged in, so an element that already carries a brand colour keeps it. */
   style?: CSSProperties;
   /**
@@ -62,13 +68,14 @@ type RevealNowProps = {
 
 function revealStyle(
   index: number,
-  { step = STEP_MS, shift, style }: RevealOptions,
+  { step = STEP_MS, shift, shiftX, style }: RevealOptions,
 ): CSSProperties | undefined {
   const delay = Math.min(Math.max(index, 0), MAX_STEPS) * step;
   const custom: Record<string, string> = {};
 
   if (delay > 0) custom["--reveal-delay"] = `${delay}ms`;
   if (shift !== undefined) custom["--reveal-shift"] = `${shift}px`;
+  if (shiftX !== undefined) custom["--reveal-shift-x"] = `${shiftX}px`;
 
   const merged = { ...style, ...custom } as CSSProperties;
   return Object.keys(merged).length > 0 ? merged : undefined;

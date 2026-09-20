@@ -47,13 +47,15 @@ export function VerbChain({
             <span className="text-h3">{verb.en}</span>
           </span>
           {/* Full accent strength here — the watermark treatment is the
-              hero's alone. */}
+              hero's alone. The twin takes the beat after its own English, so
+              each stage reads as a pair arriving rather than two rows. */}
           <Ar
             decorative
             className={cn(
               "ar-kufi text-[1.75rem] leading-none",
               band ? "text-accent-on-band" : "text-accent",
             )}
+            {...reveal(index + 1, { step: 60, shift: 8 })}
           >
             {verb.ar.text}
           </Ar>

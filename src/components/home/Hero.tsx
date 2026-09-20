@@ -18,11 +18,17 @@ export function Hero() {
     <section className="relative overflow-hidden pt-block pb-section">
       <Container>
         <p
-          className="font-mono text-meta uppercase text-ink-3"
+          className="flex items-center gap-3 font-mono text-meta uppercase text-ink-3"
           {...revealNow(0, { shift: 10 })}
         >
-          <span className="text-accent-text">{site.role}</span>{" "}
-          <span aria-hidden="true">·</span> {site.location.en}
+          <span
+            aria-hidden="true"
+            className="block h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+          />
+          <span>
+            <span className="text-accent-text">{site.role}</span>{" "}
+            <span aria-hidden="true">·</span> {site.location.en}
+          </span>
         </p>
 
         <div className="relative mt-6">
@@ -33,14 +39,15 @@ export function Hero() {
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -top-[0.12em] right-0 -z-10 hidden select-none md:block"
-            // Last in, and further: the watermark should settle behind the
-            // headline rather than compete with it for the first look.
-            {...revealNow(4, { shift: 28 })}
+            // Drifts in from the edge it sits on rather than rising like
+            // everything else, and arrives last: it should settle behind the
+            // headline, not compete with it for the first look.
+            {...revealNow(4, { shift: 0, shiftX: 40 })}
           >
             <span
               lang="ar"
               dir="rtl"
-              className="ar-kufi block text-[clamp(5rem,12vw,10rem)] leading-none text-accent-soft"
+              className="ar-kufi block text-[clamp(5.5rem,13vw,11rem)] leading-none text-accent-soft"
             >
               أبني
             </span>
@@ -57,7 +64,7 @@ export function Hero() {
             className="max-w-[15ch] text-display-xl"
             {...revealNow(0, { fade: false, shift: 14 })}
           >
-            Product engineer, idea to{" "}
+            Software engineer, idea to{" "}
             <span className="text-accent">production</span>.
           </h1>
         </div>
@@ -80,7 +87,9 @@ export function Hero() {
           </Button>
         </div>
 
-        <VerbChain className="mt-section" />
+        {/* Closer than a section gap: the chain is part of the hero's
+            statement, not the next thing down the page. */}
+        <VerbChain className="mt-block" />
       </Container>
     </section>
   );

@@ -7,7 +7,16 @@ import { Wordmark } from "./Wordmark";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-rule bg-paper/85 backdrop-blur">
+    // data-stuck is set by HeaderScroll once the header sticks. It changes
+    // paint only — the height stays put, so nothing below it moves.
+    <header
+      className={
+        "sticky top-0 z-50 border-b bg-paper/85 backdrop-blur " +
+        "transition-[background-color,border-color,box-shadow] duration-300 ease-editorial " +
+        "border-rule data-stuck:border-rule-strong/40 data-stuck:bg-paper/95 " +
+        "data-stuck:shadow-[0_1px_0_rgba(20,19,17,0.04),0_8px_24px_-16px_rgba(20,19,17,0.35)]"
+      }
+    >
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
           <Wordmark className="text-small sm:text-body" />

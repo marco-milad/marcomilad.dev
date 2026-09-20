@@ -148,7 +148,7 @@ export default function SpecimenPage() {
             </p>
 
             <h1 className="-mt-[0.35em] text-display-xl">
-              Product engineer,
+              Software engineer,
               <br />
               idea to <span className="text-accent">production</span>.
             </h1>

@@ -152,7 +152,7 @@
     [data-reveal-armed] [data-reveal],
     [data-reveal-armed] [data-reveal-now] {
       opacity: 0;
-      transform: translate3d(0, var(--reveal-shift, 18px), 0);
+      transform: translate3d(var(--reveal-shift-x, 0), var(--reveal-shift, 18px), 0);
     }
 
     /* An animation rather than a transition, deliberately. Tailwind's
@@ -211,7 +211,41 @@
   @keyframes reveal-in {
     from {
       opacity: 0;
-      transform: translate3d(0, var(--reveal-shift, 18px), 0);
+      transform: translate3d(var(--reveal-shift-x, 0), var(--reveal-shift, 18px), 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* -------------------------------------------------------------------------
+     Mobile menu entrance. The panel cannot use the reveal system: it is inside
+     a <dialog> that does not exist on screen at load, so there is nothing for
+     the observer to watch. A plain animation that runs on open is the right
+     tool, and prefers-reduced-motion collapses it globally further down.
+     ------------------------------------------------------------------------- */
+  .menu-panel {
+    animation: menu-in var(--duration-base) var(--ease-editorial) both;
+  }
+
+  .menu-item {
+    animation: menu-item-in var(--duration-base) var(--ease-editorial) both;
+  }
+
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes menu-item-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
     }
     to {
       opacity: 1;
@@ -221,7 +255,7 @@
 
   @keyframes reveal-rise {
     from {
-      transform: translate3d(0, var(--reveal-shift, 18px), 0);
+      transform: translate3d(var(--reveal-shift-x, 0), var(--reveal-shift, 18px), 0);
     }
     to {
       transform: none;

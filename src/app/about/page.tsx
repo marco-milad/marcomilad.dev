@@ -18,7 +18,7 @@ import { breadcrumbJsonLd, personJsonLd, websiteJsonLd } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Marco Milad, product engineer in Cairo — how I work, where I have worked, and the products behind it.",
+    "Marco Milad, software engineer in Cairo — how I work, where I have worked, and the products behind it.",
   alternates: { canonical: "/about" },
 };
 
@@ -46,7 +46,7 @@ export default function AboutPage() {
 
             <div className="flex flex-col gap-5 text-body text-ink-2">
               <p className="max-w-prose" {...revealNow(3)}>
-                I am a product engineer in {site.location.en}. In practice that
+                I am a software engineer in {site.location.en}. In practice that
                 means I am the person who sits with the business problem first
                 — what makes money, what breaks, what nobody can change — and
                 then stays with it through the data model, the interface, the
