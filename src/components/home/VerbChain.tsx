@@ -1,5 +1,6 @@
 import { verbChain } from "@content/lexicon";
 import { cn } from "@/lib/cn";
+import { reveal } from "@/lib/reveal";
 import { Ar } from "@/components/ui/Ar";
 
 /**
@@ -19,15 +20,13 @@ export function VerbChain({
   const band = tone === "band";
 
   return (
-    <ol
-      className={cn(
-        "reveal-stagger flex flex-col gap-3 md:flex-row md:gap-8",
-        className,
-      )}
-    >
+    <ol className={cn("flex flex-col gap-3 md:flex-row md:gap-8", className)}>
       {verbChain.map((verb, index) => (
         <li
           key={verb.key}
+          // The chain is the one place the stagger is the content: five stages
+          // arriving in order is the point being made.
+          {...reveal(index, { shift: 12 })}
           className={cn(
             "flex items-baseline justify-between gap-4 border-t pt-3",
             // Equal columns on desktop: content-width columns read ragged

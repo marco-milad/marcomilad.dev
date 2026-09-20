@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Ar } from "@/components/ui/Ar";
 import { getProject } from "@/lib/content";
+import { reveal } from "@/lib/reveal";
 
 /**
  * The verb chain expanded, on the ink band. Each stage cites one real artifact
@@ -31,6 +32,7 @@ export function Process() {
             <li
               key={stage.key}
               className="grid gap-4 border-t border-band-rule py-8 lg:grid-cols-12 lg:gap-8"
+              {...reveal(index, { shift: 14 })}
             >
               <div className="lg:col-span-3">
                 <p className="font-mono text-meta text-band-muted">
@@ -61,10 +63,15 @@ export function Process() {
                     href={`/work/${project.slug}`}
                     // inline-flex keeps the arrow beside the last word instead
                     // of letting it wrap onto a line of its own.
-                    className="mt-3 inline-flex items-baseline gap-1 text-small text-accent-on-band underline decoration-1 underline-offset-4 hover:decoration-2"
+                    className="group mt-3 inline-flex items-baseline gap-1 text-small text-accent-on-band underline decoration-1 underline-offset-4 hover:decoration-2"
                   >
                     <span>{project.title}</span>
-                    <span aria-hidden="true">→</span>
+                    <span
+                      aria-hidden="true"
+                      className="inline-block transition-transform duration-base ease-editorial group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
                   </Link>
                 ) : null}
               </div>

@@ -1,5 +1,6 @@
 import { lexicon } from "@content/lexicon";
 import { site } from "@content/site";
+import { reveal } from "@/lib/reveal";
 import { Ar } from "@/components/ui/Ar";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
@@ -15,7 +16,7 @@ import { TextLink } from "@/components/ui/TextLink";
 export function FinalCta() {
   return (
     <Section tone="band" id="contact">
-      <h2 className="text-display">
+      <h2 className="text-display" {...reveal(0)}>
         {lexicon.letsStart.en}{" "}
         <Ar decorative className="ar-display text-accent-on-band">
           {lexicon.letsStart.ar?.text}
@@ -23,7 +24,7 @@ export function FinalCta() {
       </h2>
 
       <div className="mt-block grid gap-block md:grid-cols-2 md:gap-16">
-        <div className="border-t border-band-rule pt-8">
+        <div className="border-t border-band-rule pt-8" {...reveal(1)}>
           <h3 className="text-h3">Hiring?</h3>
           <p className="mt-4 max-w-prose text-body text-band-fg">
             The résumé has the short version; the case studies have the long
@@ -45,7 +46,7 @@ export function FinalCta() {
           </div>
         </div>
 
-        <div className="border-t border-band-rule pt-8">
+        <div className="border-t border-band-rule pt-8" {...reveal(2)}>
           <h3 className="text-h3">Building something?</h3>
           <p className="mt-4 max-w-prose text-body text-band-fg">
             Tell me the problem rather than the spec — what breaks today, who

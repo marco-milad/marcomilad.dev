@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ImageAsset } from "@content/schema";
+import { reveal, revealNow } from "@/lib/reveal";
 import { Figure } from "@/components/ui/Figure";
 import {
   BrowserFrame,
@@ -20,6 +21,7 @@ export function ProjectImage({
   priority = false,
   zoomable = false,
   number,
+  revealIndex = 0,
 }: {
   asset: ImageAsset;
   tone?: "paper" | "band";
@@ -28,7 +30,17 @@ export function ProjectImage({
   /** For dense screenshots that reward a closer look. */
   zoomable?: boolean;
   number?: string;
+  /** Beat in the enclosing cascade — galleries pass the figure's position. */
+  revealIndex?: number;
 }) {
+  // `priority` already means "above the fold", which is exactly the set of
+  // images that must not wait for the observer: one of them is the LCP
+  // element on every case study.
+  // A priority cover is the LCP element on every case study, so it rises
+  // opaque rather than fading — see reveal.ts on why that matters.
+  const entrance = priority
+    ? revealNow(0, { shift: 12, fade: false })
+    : reveal(revealIndex, { shift: 20 });
   const image = (
     <Image
       src={asset.src}
@@ -96,6 +108,7 @@ export function ProjectImage({
       sampleData={asset.sampleData}
       rtl={asset.dir === "rtl"}
       tone={tone}
+      {...entrance}
     >
       {body}
     </Figure>

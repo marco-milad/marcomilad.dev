@@ -51,7 +51,10 @@ export function Button(props: ButtonAsLink | ButtonAsButton) {
 
   const classes = cn(
     "inline-flex items-center justify-center gap-2 rounded-figure font-medium",
-    "transition-colors duration-200 ease-editorial",
+    // Transform, never size: a button that grows on hover shifts whatever is
+    // beside it, and a hover does not earn Chrome's recent-input grace.
+    "transition-[color,background-color,border-color,transform] duration-200 ease-editorial",
+    "hover:-translate-y-0.5 active:translate-y-0",
     SIZES[size],
     variantClasses(variant, tone),
     className,

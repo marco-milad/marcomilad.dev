@@ -1,5 +1,6 @@
 ﻿import type { DecisionStory } from "@content/schema";
 import { cn } from "@/lib/cn";
+import { reveal } from "@/lib/reveal";
 import { Badge } from "@/components/ui/Badge";
 import { ProjectImage } from "./ProjectImage";
 
@@ -15,13 +16,16 @@ function Step({
   label,
   paragraphs,
   band,
+  index = 0,
 }: {
   label: string;
   paragraphs: string[];
   band: boolean;
+  /** Position in the column's cascade: diagnosis, then response. */
+  index?: number;
 }) {
   return (
-    <div>
+    <div {...reveal(index, { shift: 12 })}>
       <p
         className={cn(
           "font-mono text-meta uppercase",
@@ -70,7 +74,10 @@ export function DecisionStoryBlock({
         band ? "border-band-rule" : "border-rule",
       )}
     >
-      <header className="flex flex-wrap items-baseline gap-x-4 gap-y-3">
+      <header
+        className="flex flex-wrap items-baseline gap-x-4 gap-y-3"
+        {...reveal(0)}
+      >
         <span
           className={cn(
             "font-mono text-meta",
@@ -91,12 +98,12 @@ export function DecisionStoryBlock({
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:gap-12">
         <div className="flex flex-col gap-8">
-          <Step label={STEP_LABELS.problem} paragraphs={story.problem} band={band} />
+          <Step label={STEP_LABELS.problem} paragraphs={story.problem} band={band} index={1} />
           {story.rootCause ? (
-            <Step label={STEP_LABELS.rootCause} paragraphs={story.rootCause} band={band} />
+            <Step label={STEP_LABELS.rootCause} paragraphs={story.rootCause} band={band} index={2} />
           ) : null}
           {story.constraints?.length ? (
-            <div>
+            <div {...reveal(3, { shift: 12 })}>
               <p
                 className={cn(
                   "font-mono text-meta uppercase",
@@ -123,9 +130,9 @@ export function DecisionStoryBlock({
         </div>
 
         <div className="flex flex-col gap-8">
-          <Step label={STEP_LABELS.decision} paragraphs={story.decision} band={band} />
-          <Step label={STEP_LABELS.implementation} paragraphs={story.implementation} band={band} />
-          <Step label={STEP_LABELS.result} paragraphs={story.result} band={band} />
+          <Step label={STEP_LABELS.decision} paragraphs={story.decision} band={band} index={2} />
+          <Step label={STEP_LABELS.implementation} paragraphs={story.implementation} band={band} index={3} />
+          <Step label={STEP_LABELS.result} paragraphs={story.result} band={band} index={4} />
         </div>
       </div>
 

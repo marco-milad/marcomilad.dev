@@ -1,5 +1,6 @@
 ﻿import type { Section } from "@content/schema";
 import { cn } from "@/lib/cn";
+import { reveal } from "@/lib/reveal";
 import { Ar } from "@/components/ui/Ar";
 import { Badge } from "@/components/ui/Badge";
 import { DecisionStoryBlock } from "./DecisionStoryBlock";
@@ -10,16 +11,30 @@ import { ProjectImage } from "./ProjectImage";
 
 type Tone = "paper" | "band";
 
-function Prose({ paragraphs, tone }: { paragraphs: string[]; tone: Tone }) {
+/**
+ * `from` continues a cascade the caller has already started — a heading at
+ * beat 0 hands its paragraphs beat 1 onward, so a block reads top to bottom
+ * rather than arriving in two unrelated pieces.
+ */
+function Prose({
+  paragraphs,
+  tone,
+  from = 0,
+}: {
+  paragraphs: string[];
+  tone: Tone;
+  from?: number;
+}) {
   return (
     <div className="flex flex-col gap-5">
-      {paragraphs.map((paragraph) => (
+      {paragraphs.map((paragraph, index) => (
         <p
           key={paragraph.slice(0, 40)}
           className={cn(
             "max-w-prose text-body",
             tone === "band" ? "text-band-fg" : "text-ink-2",
           )}
+          {...reveal(from + index, { shift: 12 })}
         >
           {paragraph}
         </p>
@@ -45,7 +60,10 @@ function BlockHeading({
   if (!title) return null;
   const Tag = level === 2 ? "h2" : "h3";
   return (
-    <Tag className={cn("mb-6 text-h2", tone === "band" && "text-band-fg")}>
+    <Tag
+      className={cn("mb-6 text-h2", tone === "band" && "text-band-fg")}
+      {...reveal(0)}
+    >
       {title}
     </Tag>
   );
@@ -76,7 +94,7 @@ export function SectionRenderer({
       return (
         <section>
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
-          <Prose paragraphs={section.body} tone={tone} />
+          <Prose paragraphs={section.body} tone={tone} from={1} />
         </section>
       );
 
@@ -85,7 +103,7 @@ export function SectionRenderer({
       return (
         <section>
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
-          <Prose paragraphs={section.body} tone={tone} />
+          <Prose paragraphs={section.body} tone={tone} from={1} />
           {section.figure ? (
             <div className="mt-10">
               <ProjectImage asset={section.figure} tone={tone} />
@@ -100,20 +118,24 @@ export function SectionRenderer({
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
-              <Prose paragraphs={section.body} tone={tone} />
+              <Prose paragraphs={section.body} tone={tone} from={1} />
             </div>
           ) : null}
 
           <div className="grid gap-8 md:grid-cols-2">
             <div>
-              <p className={cn("font-mono text-meta uppercase", muted)}>
+              <p
+                className={cn("font-mono text-meta uppercase", muted)}
+                {...reveal(0, { shift: 8 })}
+              >
                 What I owned
               </p>
               <ul className="mt-4 flex flex-col gap-2">
-                {section.ownership.owned.map((item) => (
+                {section.ownership.owned.map((item, index) => (
                   <li
                     key={item}
                     className={cn("border-t pt-2 text-body", rule)}
+                    {...reveal(index + 1, { step: 50, shift: 10 })}
                   >
                     {item}
                   </li>
@@ -126,14 +148,18 @@ export function SectionRenderer({
               <div>
                 {section.ownership.contributed?.length ? (
                   <>
-                    <p className={cn("font-mono text-meta uppercase", muted)}>
+                    <p
+                      className={cn("font-mono text-meta uppercase", muted)}
+                      {...reveal(0, { shift: 8 })}
+                    >
                       What I contributed to
                     </p>
                     <ul className="mt-4 flex flex-col gap-2">
-                      {section.ownership.contributed.map((item) => (
+                      {section.ownership.contributed.map((item, index) => (
                         <li
                           key={item}
                           className={cn("border-t pt-2 text-body", rule)}
+                          {...reveal(index + 1, { step: 50, shift: 10 })}
                         >
                           {item}
                         </li>
@@ -143,7 +169,7 @@ export function SectionRenderer({
                 ) : null}
 
                 {section.ownership.team ? (
-                  <p className={cn("mt-6 text-small", muted)}>
+                  <p className={cn("mt-6 text-small", muted)} {...reveal(2)}>
                     Team: {section.ownership.team}
                   </p>
                 ) : null}
@@ -159,18 +185,19 @@ export function SectionRenderer({
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
-              <Prose paragraphs={section.body} tone={tone} />
+              <Prose paragraphs={section.body} tone={tone} from={1} />
             </div>
           ) : null}
 
           <ol className="flex flex-col">
-            {section.items.map((item) => (
+            {section.items.map((item, index) => (
               <li
                 key={item.requirement}
                 className={cn(
                   "grid gap-3 border-t py-6 md:grid-cols-2 md:gap-12",
                   rule,
                 )}
+                {...reveal(index, { shift: 12 })}
               >
                 <p className={cn("text-body", band ? "text-band-fg" : "")}>
                   {item.requirement}
@@ -197,7 +224,7 @@ export function SectionRenderer({
       return (
         <section>
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
-          <Prose paragraphs={section.body} tone={tone} />
+          <Prose paragraphs={section.body} tone={tone} from={1} />
           {section.figure ? (
             <div className="mt-10">
               <ProjectImage asset={section.figure} tone={tone} />
@@ -211,8 +238,8 @@ export function SectionRenderer({
         <section>
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <div className="grid gap-10 md:grid-cols-2">
-            {section.items.map((item) => (
-              <div key={item.title}>
+            {section.items.map((item, index) => (
+              <div key={item.title} {...reveal(index, { shift: 14 })}>
                 <h4 className={cn("border-t pt-4 text-h3", rule)}>
                   {item.title}
                 </h4>
@@ -239,7 +266,7 @@ export function SectionRenderer({
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
-              <Prose paragraphs={section.body} tone={tone} />
+              <Prose paragraphs={section.body} tone={tone} from={1} />
             </div>
           ) : null}
           <LayerDiagram layers={section.layers} tone={tone} />
@@ -256,8 +283,8 @@ export function SectionRenderer({
         <section>
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           <ul className="grid gap-8 md:grid-cols-2">
-            {section.items.map((item) => (
-              <li key={item.title}>
+            {section.items.map((item, index) => (
+              <li key={item.title} {...reveal(index, { shift: 14 })}>
                 <h4 className={cn("border-t pt-4 text-h3", rule)}>
                   {item.title}
                 </h4>
@@ -291,7 +318,7 @@ export function SectionRenderer({
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
-              <Prose paragraphs={section.body} tone={tone} />
+              <Prose paragraphs={section.body} tone={tone} from={1} />
             </div>
           ) : null}
           {section.metrics?.length ? (
@@ -299,14 +326,18 @@ export function SectionRenderer({
           ) : null}
           {section.security?.length ? (
             <div className="mt-10">
-              <p className={cn("font-mono text-meta uppercase", muted)}>
+              <p
+                className={cn("font-mono text-meta uppercase", muted)}
+                {...reveal(0, { shift: 8 })}
+              >
                 Security
               </p>
               <ul className="mt-4 flex flex-col">
-                {section.security.map((item) => (
+                {section.security.map((item, index) => (
                   <li
                     key={item}
                     className={cn("border-t py-3 text-body", rule, muted)}
+                    {...reveal(index + 1, { step: 50, shift: 10 })}
                   >
                     {item}
                   </li>
@@ -321,7 +352,7 @@ export function SectionRenderer({
       return (
         <section>
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
-          <Prose paragraphs={section.body} tone={tone} />
+          <Prose paragraphs={section.body} tone={tone} from={1} />
           {section.figure ? (
             <div className="mt-10">
               <ProjectImage asset={section.figure} tone={tone} />
@@ -336,12 +367,16 @@ export function SectionRenderer({
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
-              <Prose paragraphs={section.body} tone={tone} />
+              <Prose paragraphs={section.body} tone={tone} from={1} />
             </div>
           ) : null}
           <dl className="grid gap-6 sm:grid-cols-2">
-            {section.terms.map((term) => (
-              <div key={term.ar} className={cn("border-t pt-4", rule)}>
+            {section.terms.map((term, index) => (
+              <div
+                key={term.ar}
+                className={cn("border-t pt-4", rule)}
+                {...reveal(index, { step: 55, shift: 10 })}
+              >
                 <dt className="flex flex-wrap items-baseline gap-3">
                   {/* Real domain vocabulary: meaningful, so not aria-hidden. */}
                   <Ar className="text-h3">{term.ar}</Ar>
@@ -364,14 +399,18 @@ export function SectionRenderer({
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {section.body ? (
             <div className="mb-8">
-              <Prose paragraphs={section.body} tone={tone} />
+              <Prose paragraphs={section.body} tone={tone} from={1} />
             </div>
           ) : null}
           <DirectionMirror ltr={section.ltr} rtl={section.rtl} tone={tone} />
           {section.notes?.length ? (
             <ul className="mt-8 flex flex-col gap-3">
-              {section.notes.map((note) => (
-                <li key={note} className={cn("max-w-prose text-small", muted)}>
+              {section.notes.map((note, index) => (
+                <li
+                  key={note}
+                  className={cn("max-w-prose text-small", muted)}
+                  {...reveal(index, { step: 55, shift: 10 })}
+                >
                   <Badge tone={tone} className="me-3">
                     RTL note
                   </Badge>
@@ -390,7 +429,7 @@ export function SectionRenderer({
           <BlockHeading title={section.title} tone={tone} level={headingLevel} />
           {"body" in section && section.body ? (
             <div className="mb-8">
-              <Prose paragraphs={section.body} tone={tone} />
+              <Prose paragraphs={section.body} tone={tone} from={1} />
             </div>
           ) : null}
           <div className="grid gap-10 md:grid-cols-2">
@@ -402,6 +441,7 @@ export function SectionRenderer({
                 sizes="(min-width: 768px) 50vw, 100vw"
                 zoomable={figure.treatment === "plate"}
                 number={String(index + 1).padStart(2, "0")}
+                revealIndex={index}
               />
             ))}
           </div>

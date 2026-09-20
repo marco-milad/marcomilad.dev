@@ -12,6 +12,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { VerbChain } from "@/components/home/VerbChain";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getProject } from "@/lib/content";
+import { reveal, revealNow } from "@/lib/reveal";
 import { breadcrumbJsonLd, personJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -44,14 +45,14 @@ export default function AboutPage() {
             />
 
             <div className="flex flex-col gap-5 text-body text-ink-2">
-              <p className="max-w-prose">
+              <p className="max-w-prose" {...revealNow(3)}>
                 I am a product engineer in {site.location.en}. In practice that
                 means I am the person who sits with the business problem first
                 — what makes money, what breaks, what nobody can change — and
                 then stays with it through the data model, the interface, the
                 deployment, and whatever the first version got wrong.
               </p>
-              <p className="max-w-prose">
+              <p className="max-w-prose" {...revealNow(4)}>
                 Most of the systems I have built are used by people working in
                 Arabic: a shop counter, a stock room, a phone on a network that
                 is not fast. That shapes the engineering more than any framework
@@ -59,7 +60,7 @@ export default function AboutPage() {
                 flow has to match how money actually moves, and a report that
                 disagrees with another report is worse than no report.
               </p>
-              <p className="max-w-prose">
+              <p className="max-w-prose" {...revealNow(5)}>
                 I like the parts most people skip: making the guarantee
                 structural rather than careful, proving a bug before fixing it,
                 and writing down the limitation instead of hoping nobody finds
@@ -68,7 +69,12 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5">
+          {/* The LCP element at desktop widths: delay 0, and it rises rather
+              than fades so the metric reflects what the reader actually sees. */}
+          <div
+            className="lg:col-span-5"
+            {...revealNow(0, { shift: 12, fade: false })}
+          >
             <Image
               src={portrait}
               alt="Marco Milad"
@@ -91,7 +97,7 @@ export default function AboutPage() {
         <VerbChain tone="band" />
 
         <div className="mt-section grid items-center gap-block lg:grid-cols-12 lg:gap-16">
-          <figure className="lg:col-span-5">
+          <figure className="lg:col-span-5" {...reveal(0)}>
             <Image
               src={working}
               alt="Marco Milad outdoors in Cairo"
@@ -101,7 +107,10 @@ export default function AboutPage() {
               className="h-auto w-full rounded-figure"
             />
           </figure>
-          <p className="max-w-prose text-lead text-band-fg lg:col-span-7">
+          <p
+            className="max-w-prose text-lead text-band-fg lg:col-span-7"
+            {...reveal(1)}
+          >
             Most of this work happens remotely, for clients in Cairo and
             further out. The part I care about is the same either way: being
             close enough to the business to know which constraint is the real
@@ -114,10 +123,11 @@ export default function AboutPage() {
         <SectionHeader label={lexicon.experience} title="Experience" />
 
         <ol className="flex flex-col">
-          {experience.map((role) => (
+          {experience.map((role, index) => (
             <li
               key={`${role.org}-${role.start}`}
               className="grid gap-4 border-t border-rule py-8 lg:grid-cols-12 lg:gap-12"
+              {...reveal(index, { shift: 14 })}
             >
               <div className="lg:col-span-4">
                 <h3 className="text-h3">{role.org}</h3>
@@ -173,7 +183,7 @@ export default function AboutPage() {
           ))}
         </ol>
 
-        <p className="mt-8 max-w-prose text-small text-ink-3">
+        <p className="mt-8 max-w-prose text-small text-ink-3" {...reveal()}>
           M.M Bags and the gold and jewelry ERP were built independently — the
           first for a family retail business, the second directly for a shop
           owner — rather than through an agency.
@@ -182,7 +192,7 @@ export default function AboutPage() {
 
       <Section>
         <div className="grid gap-block md:grid-cols-2 md:gap-16">
-          <div>
+          <div {...reveal(0)}>
             <h2 className="font-mono text-meta uppercase text-ink-3">
               Education
             </h2>
@@ -193,7 +203,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div>
+          <div {...reveal(1)}>
             <h2 className="font-mono text-meta uppercase text-ink-3">
               Certifications
             </h2>
@@ -213,7 +223,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="mt-section flex flex-wrap gap-4 border-t border-rule pt-block">
+        <div className="mt-section flex flex-wrap gap-4 border-t border-rule pt-block" {...reveal()}>
           <Button href="/contact">{lexicon.letsStart.en}</Button>
           <Button href={site.cv.href} external variant="secondary">
             Résumé ({site.cv.note})

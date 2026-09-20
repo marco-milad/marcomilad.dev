@@ -102,6 +102,9 @@
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 400ms;
+  /* Entrance. Long enough to read as deliberate, short enough that a fast
+     scroller is never waiting on it. */
+  --duration-reveal: 620ms;
 }
 
 @layer components {
@@ -118,46 +121,111 @@
   }
 
   /* -------------------------------------------------------------------------
-     Scroll-driven entrances. Zero JS: browsers without support simply show
-     the content, and reduced-motion turns them off entirely (see below).
+     Entrance motion.
+
+     `animation-timeline: view()` used to drive this. It is Chromium-only, so
+     in Firefox and Safari the site simply had no motion. This replaces it with
+     one IntersectionObserver that flips `data-in` on an element as it comes
+     into view, which every browser we target supports.
+
+     Three guards mean content can never be left invisible:
+
+       1. The hiding rules require `data-reveal-armed` on <html>, which is set
+          by an inline script — no JavaScript, an old browser, or a blocked
+          bundle and nothing is ever hidden in the first place.
+       2. The same script drops the attribute again if the observer has not
+          reported in, so a broken bundle self-heals.
+       3. Everything is inside prefers-reduced-motion: no-preference, so a
+          visitor who asked for less motion gets the resting state directly.
+
+     Only opacity and transform move. No layout property is touched anywhere
+     below, which is why the cascade costs nothing in CLS.
      ------------------------------------------------------------------------- */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      /* Ranges are entry-only on purpose. A `cover`-based range can never
-         complete for a section taller than the viewport or one pinned to the
-         bottom of the page, which would leave content stuck faded out. Entry
-         ranges always finish for anything a visitor can actually reach. */
-      .reveal {
-        animation: reveal-in linear both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 55%;
-      }
+  @media (prefers-reduced-motion: no-preference) {
+    /* The resting-but-not-yet-arrived state. */
+    [data-reveal-armed] [data-reveal],
+    [data-reveal-armed] [data-reveal-now] {
+      opacity: 0;
+      transform: translate3d(0, var(--reveal-shift, 18px), 0);
+    }
 
-      /* Staggered children for lists, grids and card rows. */
-      .reveal-stagger > * {
-        animation: reveal-in linear both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 60%;
-      }
+    /* An animation rather than a transition, deliberately. Tailwind's
+       `transition-*` utilities live in a later cascade layer, and layer order
+       beats specificity — a card that animates its own colour on hover would
+       have silently replaced a transition-based entrance with an instant one.
+       Nothing overrides animation-*, so the entrance is the entrance.
 
-      .reveal-stagger > *:nth-child(2) {
-        animation-range: entry 4% entry 64%;
-      }
+       Delay is a server-rendered custom property, so the stagger already ships
+       in the HTML; the client only decides when a group starts. */
+    [data-reveal-armed] [data-reveal][data-in],
+    [data-reveal-armed] [data-reveal-now] {
+      animation: reveal-in var(--duration-reveal) var(--ease-editorial)
+        var(--reveal-delay, 0ms) both;
+    }
 
-      .reveal-stagger > *:nth-child(3) {
-        animation-range: entry 8% entry 68%;
-      }
+    /* Move without fading. Reserved for elements that are, or could become,
+       the page's Largest Contentful Paint: Chrome skips anything painted at
+       opacity 0 and never reconsiders it, so fading a headline in takes it out
+       of the metric while the reader waits longer for it. These paint opaque
+       on the first frame and rise into place. */
+    [data-reveal-armed] [data-reveal-solid] {
+      opacity: 1;
+    }
 
-      .reveal-stagger > *:nth-child(n + 4) {
-        animation-range: entry 12% entry 72%;
-      }
+    [data-reveal-armed] [data-reveal][data-reveal-solid][data-in],
+    [data-reveal-armed] [data-reveal-now][data-reveal-solid] {
+      animation-name: reveal-rise;
+    }
+
+    /* The build-window bars draw out from their start instead of sliding up:
+       a span of months filling in is what the figure is about. Physical `left`
+       because the document is LTR — there is no logical transform-origin, and
+       the bars are positioned with inset-inline-start on the same assumption. */
+    [data-reveal-armed] [data-reveal][data-reveal-bar] {
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    [data-reveal-armed] [data-reveal][data-reveal-bar][data-in] {
+      animation: reveal-bar-in var(--duration-slow) var(--ease-editorial)
+        var(--reveal-delay, 0ms) both;
+    }
+  }
+
+  /* A printed page has no scroll, so nothing would ever be triggered. */
+  @media print {
+    [data-reveal],
+    [data-reveal-now] {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
     }
   }
 
   @keyframes reveal-in {
     from {
       opacity: 0;
-      transform: translateY(14px);
+      transform: translate3d(0, var(--reveal-shift, 18px), 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes reveal-rise {
+    from {
+      transform: translate3d(0, var(--reveal-shift, 18px), 0);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes reveal-bar-in {
+    from {
+      opacity: 0;
+      transform: scaleX(0);
     }
     to {
       opacity: 1;

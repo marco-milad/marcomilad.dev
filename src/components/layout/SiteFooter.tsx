@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { footerNav, site } from "@content/site";
 import { lexicon } from "@content/lexicon";
+import { reveal } from "@/lib/reveal";
 import { Ar } from "@/components/ui/Ar";
 import { Container } from "@/components/ui/Container";
 
@@ -12,11 +13,14 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="band">
+    // data-reveal-flush: when the footer comes into view the page has run out
+    // of room below, so the observer releases anything still waiting. It is the
+    // backstop for content that a viewport-edge trigger could never reach.
+    <footer className="band" data-reveal-flush="">
       <Container>
         <div className="py-block">
           <div className="flex flex-col gap-block border-t border-band-rule pt-block md:flex-row md:justify-between">
-            <div>
+            <div {...reveal(0)}>
               <Wordmarkish />
               <p className="mt-4 max-w-prose text-small text-band-muted">
                 {site.role} in {site.location.en}. Available for product
@@ -24,7 +28,10 @@ export function SiteFooter() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-8 sm:flex-row sm:gap-16">
+            <div
+              className="flex flex-col gap-8 sm:flex-row sm:gap-16"
+              {...reveal(1)}
+            >
               <nav aria-label="Footer">
                 <ul className="flex flex-col gap-3 text-small">
                   {footerNav.map((item) => (
@@ -34,7 +41,7 @@ export function SiteFooter() {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-band-muted transition-colors duration-200 hover:text-band-fg"
+                          className="inline-block text-band-muted transition-[color,transform] duration-200 ease-editorial hover:translate-x-1 hover:text-band-fg"
                         >
                           {item.label.en}
                           <span className="sr-only"> (opens in a new tab)</span>
@@ -42,7 +49,7 @@ export function SiteFooter() {
                       ) : (
                         <Link
                           href={item.href}
-                          className="text-band-muted transition-colors duration-200 hover:text-band-fg"
+                          className="inline-block text-band-muted transition-[color,transform] duration-200 ease-editorial hover:translate-x-1 hover:text-band-fg"
                         >
                           {item.label.en}
                         </Link>
@@ -56,7 +63,7 @@ export function SiteFooter() {
                 <li>
                   <a
                     href={`mailto:${site.email}`}
-                    className="font-mono text-meta break-all text-band-muted transition-colors duration-200 hover:text-band-fg"
+                    className="inline-block font-mono text-meta break-all text-band-muted transition-[color,transform] duration-200 ease-editorial hover:translate-x-1 hover:text-band-fg"
                   >
                     {site.email}
                   </a>
@@ -66,7 +73,7 @@ export function SiteFooter() {
                     href={site.links.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-band-muted transition-colors duration-200 hover:text-band-fg"
+                    className="inline-block text-band-muted transition-[color,transform] duration-200 ease-editorial hover:translate-x-1 hover:text-band-fg"
                   >
                     LinkedIn
                     <span className="sr-only"> (opens in a new tab)</span>
@@ -77,7 +84,7 @@ export function SiteFooter() {
                     href={site.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-band-muted transition-colors duration-200 hover:text-band-fg"
+                    className="inline-block text-band-muted transition-[color,transform] duration-200 ease-editorial hover:translate-x-1 hover:text-band-fg"
                   >
                     GitHub
                     <span className="sr-only"> (opens in a new tab)</span>
@@ -87,7 +94,10 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="mt-block flex flex-col gap-4 border-t border-band-rule pt-8 font-mono text-meta text-band-muted sm:flex-row sm:items-center sm:justify-between">
+          <div
+            className="mt-block flex flex-col gap-4 border-t border-band-rule pt-8 font-mono text-meta text-band-muted sm:flex-row sm:items-center sm:justify-between"
+            {...reveal(2)}
+          >
             <p>
               {lexicon.madeInCairo.en}{" "}
               <span aria-hidden="true">·</span>{" "}

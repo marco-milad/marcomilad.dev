@@ -44,8 +44,16 @@ export function MainNav() {
           );
 
           const classes = cn(
-            "text-small transition-colors duration-200",
-            isActive ? "text-ink" : "text-ink-2 hover:text-ink",
+            "relative inline-block text-small transition-colors duration-200",
+            // A rule that draws itself in from the start of the word. The
+            // active item keeps it drawn, so hover and "you are here" use the
+            // same mark at different strengths.
+            "after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left",
+            "after:bg-accent after:transition-transform after:duration-200 after:ease-editorial after:content-['']",
+            "hover:after:scale-x-100",
+            isActive
+              ? "text-ink after:scale-x-100"
+              : "text-ink-2 after:scale-x-0 hover:text-ink",
           );
 
           return (

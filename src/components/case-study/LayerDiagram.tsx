@@ -1,4 +1,5 @@
 import { cn } from "@/lib/cn";
+import { reveal } from "@/lib/reveal";
 
 type Layer = {
   name: string;
@@ -30,6 +31,7 @@ export function LayerDiagram({
         "md:grid-cols-2",
         layers.length >= 4 ? "xl:grid-cols-4" : "xl:grid-cols-3",
       )}
+      {...reveal(0)}
     >
       {layers.map((layer, index) => (
         <li
@@ -38,6 +40,9 @@ export function LayerDiagram({
             "flex flex-col gap-4 p-6",
             band ? "bg-band" : "bg-paper-raised",
           )}
+          // Layers arrive in the direction the data flows through them, sliding
+          // into the plate rather than fading onto it.
+          {...reveal(index + 1, { fade: false, shift: 8 })}
         >
           <p
             className={cn(

@@ -1,18 +1,26 @@
 import { site } from "@content/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { revealNow } from "@/lib/reveal";
 import { VerbChain } from "./VerbChain";
 
 /**
  * The Arabic watermark is absolutely positioned on purpose: it is decorative,
  * it uses a font that is not preloaded, and taking it out of flow means a late
  * font swap cannot move the headline. No layout shift, no LCP cost.
+ *
+ * The hero uses revealNow rather than the scroll observer: it is already on
+ * screen, and the headline is the LCP element, so it must not be waiting on
+ * the bundle to be allowed to appear. It sits at delay 0 for the same reason.
  */
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-block pb-section">
       <Container>
-        <p className="font-mono text-meta uppercase text-ink-3">
+        <p
+          className="font-mono text-meta uppercase text-ink-3"
+          {...revealNow(0, { shift: 10 })}
+        >
           <span className="text-accent-text">{site.role}</span>{" "}
           <span aria-hidden="true">·</span> {site.location.en}
         </p>
@@ -25,6 +33,9 @@ export function Hero() {
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -top-[0.12em] right-0 -z-10 hidden select-none md:block"
+            // Last in, and further: the watermark should settle behind the
+            // headline rather than compete with it for the first look.
+            {...revealNow(4, { shift: 28 })}
           >
             <span
               lang="ar"
@@ -35,13 +46,19 @@ export function Hero() {
             </span>
           </div>
 
-          <h1 className="max-w-[13ch] text-display-xl">
+          {/* Rises without fading: this is the LCP element on the home page,
+              and a fade would take it out of the metric rather than make it
+              arrive any sooner. */}
+          <h1
+            className="max-w-[13ch] text-display-xl"
+            {...revealNow(0, { fade: false, shift: 14 })}
+          >
             Product engineer, idea to{" "}
             <span className="text-accent">production</span>.
           </h1>
         </div>
 
-        <p className="mt-8 max-w-prose text-lead text-ink-2">
+        <p className="mt-8 max-w-prose text-lead text-ink-2" {...revealNow(2)}>
           I take products the whole way: understanding the business, shaping
           the model, building it, shipping it, and fixing what the first
           version got wrong. React, Next.js and TypeScript on the front,
@@ -49,7 +66,10 @@ export function Hero() {
           people using it are.
         </p>
 
-        <div className="mt-block flex flex-wrap items-center gap-4">
+        <div
+          className="mt-block flex flex-wrap items-center gap-4"
+          {...revealNow(3)}
+        >
           <Button href="/work">View selected work</Button>
           <Button href={site.cta.href} variant="secondary">
             Get in touch

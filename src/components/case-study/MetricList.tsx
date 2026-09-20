@@ -1,5 +1,6 @@
 import type { Metric } from "@content/schema";
 import { cn } from "@/lib/cn";
+import { reveal } from "@/lib/reveal";
 
 const VERIFICATION_LABEL: Record<Metric["verification"], string> = {
   "measured-production": "Measured in production",
@@ -27,8 +28,13 @@ export function MetricList({
   const rule = band ? "border-band-rule" : "border-rule";
 
   return (
-    <dl className={cn("grid gap-px overflow-hidden border", rule, band ? "bg-band-rule" : "bg-rule")}>
-      {metrics.map((metric) => (
+    // Plate first, rows sliding into it — see Capabilities for why the rows
+    // rise instead of fading: the gap-px background would show as a slab.
+    <dl
+      className={cn("grid gap-px overflow-hidden border", rule, band ? "bg-band-rule" : "bg-rule")}
+      {...reveal(0)}
+    >
+      {metrics.map((metric, index) => (
         // A dl group may contain only dt and dd as direct children, so the
         // method and provenance live inside the dd rather than beside the dt.
         <div
@@ -37,6 +43,7 @@ export function MetricList({
             "grid gap-4 p-6 md:grid-cols-[2fr_3fr] md:items-baseline md:gap-8",
             band ? "bg-band" : "bg-paper-raised",
           )}
+          {...reveal(index + 1, { fade: false, shift: 8 })}
         >
           <dt className="text-h3">{metric.label}</dt>
 

@@ -5,6 +5,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ProjectRow } from "@/components/work/ProjectRow";
 import { getFeaturedProjects } from "@/lib/content";
 import { countWord } from "@/lib/numbers";
+import { reveal } from "@/lib/reveal";
 
 export function FeaturedWork() {
   const projects = getFeaturedProjects();
@@ -29,13 +30,18 @@ export function FeaturedWork() {
         ))}
       </div>
 
-      <p className="mt-block">
+      <p className="mt-block" {...reveal()}>
         <Link
           href="/work"
-          className="text-small text-accent-text underline decoration-1 underline-offset-4 hover:decoration-2"
+          className="group text-small text-accent-text underline decoration-1 underline-offset-4 hover:decoration-2"
         >
           All work
-          <span aria-hidden="true"> →</span>
+          <span
+            aria-hidden="true"
+            className="ms-1 inline-block transition-transform duration-base ease-editorial group-hover:translate-x-1"
+          >
+            →
+          </span>
         </Link>
       </p>
     </Section>

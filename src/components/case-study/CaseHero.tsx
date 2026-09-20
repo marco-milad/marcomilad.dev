@@ -1,5 +1,6 @@
 import type { Project } from "@content/schema";
 import { stack } from "@content/stack";
+import { reveal, revealNow } from "@/lib/reveal";
 import { Badge } from "@/components/ui/Badge";
 import { Container } from "@/components/ui/Container";
 import { TextLink } from "@/components/ui/TextLink";
@@ -80,19 +81,29 @@ export function CaseHero({ project }: { project: Project }) {
       }
     >
       <Container>
+        {/* The case hero is the first screen, so it runs on the load cadence
+            rather than the observer's — same rhythm, no wait for the bundle. */}
         <p
           className="font-mono text-meta uppercase"
-          style={{ color: brandInk }}
+          {...revealNow(0, { shift: 10, style: { color: brandInk } })}
         >
           <Twin label={project.category} />
         </p>
 
-        <h1 className="mt-5 text-display">{project.title}</h1>
-        <p className="mt-5 max-w-prose text-lead text-ink-2">
+        <h1
+          className="mt-5 text-display"
+          {...revealNow(1, { fade: false, shift: 14 })}
+        >
+          {project.title}
+        </h1>
+        <p className="mt-5 max-w-prose text-lead text-ink-2" {...revealNow(2)}>
           {project.positioning}
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
+        <div
+          className="mt-8 flex flex-wrap items-center gap-3"
+          {...revealNow(3)}
+        >
           {project.status === "production" ? (
             <Badge variant="status">{STATUS_LABEL[project.status]}</Badge>
           ) : (
@@ -112,8 +123,12 @@ export function CaseHero({ project }: { project: Project }) {
         </div>
 
         <dl className="mt-block grid gap-x-12 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-          {facts.map((fact) => (
-            <div key={fact.term} className="border-t border-rule pt-4">
+          {facts.map((fact, index) => (
+            <div
+              key={fact.term}
+              className="border-t border-rule pt-4"
+              {...reveal(index, { step: 45, shift: 10 })}
+            >
               <dt className="font-mono text-meta uppercase text-ink-3">
                 {fact.term}
               </dt>

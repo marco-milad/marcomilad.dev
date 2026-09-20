@@ -6,9 +6,12 @@ import {
   Reem_Kufi,
 } from "next/font/google";
 import { site } from "@content/site";
+import { Reveals } from "@/components/motion/Reveals";
+import { RevealScript } from "@/components/motion/RevealScript";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { SocialRail } from "@/components/layout/SocialRail";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -93,12 +96,20 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${plexArabic.variable} ${reemKufi.variable}`}
     >
       <body className="flex min-h-dvh flex-col">
+        {/* First thing in the body: it arms the entrance cascade while the
+            rest of the document is still being parsed, so nothing is ever
+            painted and then pulled away. */}
+        <RevealScript />
         <SkipLink />
         <SiteHeader />
-        <main id="main" className="flex-1">
+        <SocialRail />
+        {/* tabIndex -1 so both the skip link and the rail's back-to-top can
+            put the keyboard here. */}
+        <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
         <SiteFooter />
+        <Reveals />
       </body>
     </html>
   );

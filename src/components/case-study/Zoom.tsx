@@ -24,7 +24,9 @@ export function Zoom({
         onClick={() => dialogRef.current?.showModal()}
         className="group relative block w-full cursor-zoom-in text-start"
       >
-        {children}
+        <span className="block overflow-hidden rounded-figure transition-transform duration-slow ease-editorial group-hover:scale-[1.01]">
+          {children}
+        </span>
         <span className="sr-only">Enlarge: {label}</span>
         <span
           aria-hidden="true"

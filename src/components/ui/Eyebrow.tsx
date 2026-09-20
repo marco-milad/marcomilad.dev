@@ -13,14 +13,18 @@ export function Eyebrow({
   label,
   tone = "paper",
   className,
+  // Passes reveal attributes (and anything else a <p> takes) straight
+  // through, so callers can put the eyebrow in a cascade.
+  ...rest
 }: {
   index?: string;
   label: Label;
   tone?: SectionTone;
   className?: string;
-}) {
+} & Omit<React.ComponentPropsWithoutRef<"p">, "children">) {
   return (
     <p
+      {...rest}
       className={cn(
         "font-mono text-meta uppercase",
         tone === "band" ? "text-band-muted" : "text-ink-3",

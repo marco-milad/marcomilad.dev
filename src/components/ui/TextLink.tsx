@@ -19,7 +19,8 @@ export function TextLink({
   children: React.ReactNode;
 }) {
   const classes = cn(
-    "underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-150 hover:decoration-2",
+    "underline decoration-1 underline-offset-4 hover:decoration-2",
+    "transition-[text-decoration-thickness,text-underline-offset] duration-150 ease-editorial hover:underline-offset-2",
     tone === "band" ? "text-accent-on-band" : "text-accent-text",
     className,
   );

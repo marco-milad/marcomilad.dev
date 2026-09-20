@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { lexicon } from "@content/lexicon";
 import { site } from "@content/site";
+import { reveal, revealNow } from "@/lib/reveal";
 import { Ar } from "@/components/ui/Ar";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
@@ -34,12 +35,12 @@ export default function ContactPage() {
         />
 
         <div className="grid gap-block lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7" {...revealNow(3)}>
             <ContactForm />
           </div>
 
           <div className="lg:col-span-5">
-            <div className="border-t border-rule pt-6">
+            <div className="border-t border-rule pt-6" {...revealNow(4)}>
               <h2 className="text-h3">Hiring</h2>
               <p className="mt-3 max-w-prose text-body text-ink-2">
                 The résumé is the short version. If you want the long one, the
@@ -61,7 +62,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="mt-block border-t border-rule pt-6">
+            <div className="mt-block border-t border-rule pt-6" {...reveal()}>
               <h2 className="text-h3">Building something</h2>
               <p className="mt-3 max-w-prose text-body text-ink-2">
                 Tell me what breaks today rather than the feature list — what it
@@ -69,7 +70,7 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="mt-block border-t border-rule pt-6">
+            <div className="mt-block border-t border-rule pt-6" {...reveal()}>
               <h2 className="text-h3">Direct</h2>
               <ul className="mt-3 flex flex-col gap-2 text-body">
                 <li>

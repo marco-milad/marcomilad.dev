@@ -16,6 +16,9 @@ export function Figure({
   tone = "paper",
   className,
   children,
+  // Reveal attributes (and anything else a <figure> takes) pass through, so a
+  // gallery can cascade its figures.
+  ...rest
 }: {
   caption?: React.ReactNode;
   number?: string;
@@ -24,11 +27,11 @@ export function Figure({
   tone?: "paper" | "band";
   className?: string;
   children: React.ReactNode;
-}) {
+} & Omit<React.ComponentPropsWithoutRef<"figure">, "children">) {
   const hasFlags = sampleData || rtl;
 
   return (
-    <figure className={cn("w-full", className)}>
+    <figure {...rest} className={cn("w-full", className)}>
       {children}
       {(caption || hasFlags) && (
         <figcaption

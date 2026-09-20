@@ -25,6 +25,8 @@ export const site = {
     linkedin: "https://www.linkedin.com/in/marco-milad-engineer",
     // Confirmed: taken from the CV's own hyperlink, and resolves (200).
     github: "https://github.com/marco-milad",
+    // The CV's own number, in wa.me form (country code, no + and no spaces).
+    whatsapp: "https://wa.me/201229749608",
   },
 
   cv: {

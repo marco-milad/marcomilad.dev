@@ -4,6 +4,7 @@ import type { StackGroup } from "@content/stack";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getStackUsage } from "@/lib/content";
+import { reveal } from "@/lib/reveal";
 
 const GROUP_LABEL: Record<StackGroup, string> = {
   frontend: "Frontend",
@@ -41,15 +42,21 @@ export function StackMap() {
 
           return (
             <div key={group}>
-              <h3 className="font-mono text-meta uppercase text-ink-3">
+              <h3
+                className="font-mono text-meta uppercase text-ink-3"
+                {...reveal(0, { shift: 8 })}
+              >
                 {GROUP_LABEL[group]}
               </h3>
 
               <dl className="mt-4 flex flex-col">
-                {items.map((item) => (
+                {items.map((item, index) => (
                   <div
                     key={item.id}
                     className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-rule py-4"
+                    // Tight beat: these rows are one line each, so a full
+                    // 70ms between them would read as a list loading in.
+                    {...reveal(index + 1, { step: 45, shift: 10 })}
                   >
                     <dt className="text-h3">{item.name}</dt>
                     <dd className="flex flex-wrap gap-x-4 gap-y-1 text-small text-ink-3">
@@ -57,7 +64,7 @@ export function StackMap() {
                         <Link
                           key={project.slug}
                           href={`/work/${project.slug}`}
-                          className="underline decoration-1 underline-offset-4 hover:text-ink-2 hover:decoration-2"
+                          className="underline decoration-1 underline-offset-4 transition-colors duration-base ease-editorial hover:text-accent-text hover:decoration-2"
                         >
                           {project.title}
                         </Link>

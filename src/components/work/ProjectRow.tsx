@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@content/schema";
 import { cn } from "@/lib/cn";
+import { reveal } from "@/lib/reveal";
 import { Badge } from "@/components/ui/Badge";
 import { Twin } from "@/components/ui/Twin";
 
@@ -36,9 +37,17 @@ export function ProjectRow({
     <Link
       href={`/work/${project.slug}`}
       className="group block border-t-2 pt-8 transition-colors duration-base ease-editorial"
-      // The row is topped by the product's own colour, so Work reads as five
-      // distinct things rather than one template repeated.
-      style={{ borderColor: project.brand }}
+      // A row arrives as one piece. Rows sit a whole section apart, so they
+      // each get their own trigger rather than a shared cascade — a stagger
+      // between them would only be lag.
+      {...reveal(0, {
+        // The row is topped by the product's own colour, so Work reads as five
+        // distinct things rather than one template repeated.
+        style: { borderColor: project.brand },
+        // The priority row carries the cover that can be LCP on /work, so it
+        // rises opaque instead of fading out of the measurement.
+        fade: priority ? false : undefined,
+      })}
     >
       <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
         <div
@@ -74,7 +83,9 @@ export function ProjectRow({
             <Twin label={project.category} />
           </p>
 
-          <Heading className="mt-4 text-h2">{project.title}</Heading>
+          <Heading className="mt-4 text-h2 transition-colors duration-base ease-editorial group-hover:text-accent-text">
+            {project.title}
+          </Heading>
 
           <p className="mt-3 text-lead text-ink-2">{project.positioning}</p>
 
@@ -98,7 +109,12 @@ export function ProjectRow({
 
           <p className="mt-6 text-small text-accent-text underline decoration-1 underline-offset-4 group-hover:decoration-2">
             Read the case study
-            <span aria-hidden="true"> →</span>
+            <span
+              aria-hidden="true"
+              className="ms-1 inline-block transition-transform duration-base ease-editorial group-hover:translate-x-1"
+            >
+              →
+            </span>
           </p>
         </div>
       </div>

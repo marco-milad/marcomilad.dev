@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import Image from "next/image";
 import type { ImageAsset } from "@content/schema";
+import { reveal } from "@/lib/reveal";
 
 /**
  * The same screen in both directions.
@@ -42,7 +43,7 @@ export function DirectionMirror({
   return (
     <div>
       {/* Phone and tablet: wipe comparison */}
-      <div className="lg:hidden">
+      <div className="lg:hidden" {...reveal(0)}>
         <div
           className={
             tone === "band"
@@ -105,7 +106,7 @@ export function DirectionMirror({
 
       {/* Desktop: both at once */}
       <div className="hidden gap-8 lg:grid lg:grid-cols-2">
-        <div>
+        <div {...reveal(0)}>
           {label(ltr, "Left to right")}
           <div className={tone === "band" ? "mt-3 overflow-hidden rounded-figure border border-band-rule" : "mt-3 overflow-hidden rounded-figure border border-rule"}>
             <Image
@@ -117,7 +118,7 @@ export function DirectionMirror({
             />
           </div>
         </div>
-        <div>
+        <div {...reveal(1)}>
           {label(rtl, "Right to left")}
           <div className={tone === "band" ? "mt-3 overflow-hidden rounded-figure border border-band-rule" : "mt-3 overflow-hidden rounded-figure border border-rule"}>
             <Image

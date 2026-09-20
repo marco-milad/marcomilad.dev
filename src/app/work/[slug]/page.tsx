@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { lexicon } from "@content/lexicon";
+import { reveal } from "@/lib/reveal";
 import { Ar } from "@/components/ui/Ar";
 import { Container } from "@/components/ui/Container";
 import { CaseHero } from "@/components/case-study/CaseHero";
@@ -92,7 +93,10 @@ export default async function CaseStudyPage({
 
       {/* Contents, collapsed on phones where a sticky rail would cost too much room. */}
       <Container>
-        <details className="mt-section border-t border-rule pt-6 lg:hidden">
+        <details
+          className="mt-section border-t border-rule pt-6 lg:hidden"
+          {...reveal()}
+        >
           <summary className="cursor-pointer font-mono text-meta uppercase text-ink-3">
             Contents
           </summary>
@@ -141,7 +145,10 @@ export default async function CaseStudyPage({
                       : "scroll-mt-24"
                   }
                 >
-                  <header className="mb-block flex flex-wrap items-baseline gap-4">
+                  <header
+                    className="mb-block flex flex-wrap items-baseline gap-4"
+                    {...reveal()}
+                  >
                     <h2 className={band ? "text-h2 text-band-fg" : "text-h2"}>
                       {chapter.en}
                     </h2>
@@ -176,15 +183,24 @@ export default async function CaseStudyPage({
       {next ? (
         <Container>
           <div className="mt-section border-t border-rule py-section">
-            <p className="font-mono text-meta uppercase text-ink-3">
+            <p
+              className="font-mono text-meta uppercase text-ink-3"
+              {...reveal(0, { shift: 8 })}
+            >
               {lexicon.nextProject.en}{" "}
               <span aria-hidden="true">·</span>{" "}
               <Ar decorative>{lexicon.nextProject.ar?.text}</Ar>
             </p>
-            <Link href={`/work/${next.slug}`} className="group mt-6 block">
+            <Link
+              href={`/work/${next.slug}`}
+              className="group mt-6 block"
+              {...reveal(1)}
+            >
               <div className="grid gap-8 md:grid-cols-[2fr_3fr] md:items-center">
                 <div>
-                  <h2 className="text-h2">{next.title}</h2>
+                  <h2 className="text-h2 transition-colors duration-base ease-editorial group-hover:text-accent-text">
+                    {next.title}
+                  </h2>
                   <p className="mt-3 text-body text-ink-2">
                     {next.positioning}
                   </p>

@@ -381,7 +381,7 @@ export default function SpecimenPage() {
           below is switched off entirely under reduced motion.
         </p>
 
-        <ul className="reveal-stagger mt-block grid gap-6 md:grid-cols-3">
+        <ul className="mt-block grid gap-6 md:grid-cols-3">
           {["Fade + rise on entry", "Staggered children", "Hover lift"].map(
             (item) => (
               <li
