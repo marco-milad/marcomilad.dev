@@ -49,8 +49,12 @@ export function Hero() {
           {/* Rises without fading: this is the LCP element on the home page,
               and a fade would take it out of the metric rather than make it
               arrive any sooner. */}
+          {/* 15ch, not 13: Readex Pro is a wider face than the one this was
+              set for, and 13ch broke the line after "Product". 14 is the
+              threshold measured across 768-1440; 15 leaves slack so a fallback
+              metric cannot tip it back to three lines. */}
           <h1
-            className="max-w-[13ch] text-display-xl"
+            className="max-w-[15ch] text-display-xl"
             {...revealNow(0, { fade: false, shift: 14 })}
           >
             Product engineer, idea to{" "}

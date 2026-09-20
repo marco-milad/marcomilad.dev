@@ -33,14 +33,19 @@
   --color-band-rule: #2b2925;
   --color-accent-on-band: #e2785c;
 
-  /* ---- Type families ---- */
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* ---- Type families ----
+     Readex Pro carries Latin and Arabic in one design, so --font-sans and
+     --font-arabic are deliberately the same value. The Arabic token is kept
+     as its own name because the roles are still different: one is the page,
+     the other is a tagged island, and either could be repointed alone. */
+  --font-sans: var(--font-readex), "Segoe UI", ui-sans-serif, system-ui,
+    sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   /* Functional Arabic: nav, glossaries, RTL notes, anything read rather than
      looked at. */
-  --font-arabic: var(--font-plex-arabic), "Segoe UI", Tahoma, sans-serif;
+  --font-arabic: var(--font-readex), "Segoe UI", Tahoma, sans-serif;
   /* Display Arabic, for the large decorative moments only. */
-  --font-kufi: var(--font-reem-kufi), "Segoe UI", Tahoma, sans-serif;
+  --font-kufi: var(--font-qahiri), "Segoe UI", Tahoma, sans-serif;
 
   /* ---- Per-project brand colours ----
      Sampled from each product's own screenshots. Used for tinted bands,
@@ -109,9 +114,10 @@
 
 @layer components {
   /* -------------------------------------------------------------------------
-     Display Arabic. Decorative only — large headline moments, never reading
-     text. Tracking stays 0 (it breaks cursive joins) and these faces are
-     heavier by design, so they need less optical size bump than Plex.
+     Display Arabic — Qahiri. Decorative only: large headline moments, never
+     reading text. It is an angular Kufi built for size, with almost no
+     contrast at small sizes, which is exactly why it is kept away from body
+     copy. Tracking stays 0; letter-spacing breaks cursive joins.
      ------------------------------------------------------------------------- */
   .ar-kufi {
     font-family: var(--font-kufi);
@@ -276,19 +282,22 @@
      ------------------------------------------------------------------------- */
   .ar {
     font-family: var(--font-arabic);
-    font-size: 1.12em;
+    /* No optical bump any more. The old pairing needed Arabic set 12% larger
+       to hold its own beside Geist; Readex Pro draws both scripts to one
+       design, so a bump here would make the Arabic the loud one instead. */
+    font-size: 1em;
     line-height: 1.5;
     letter-spacing: 0;
     text-transform: none;
     font-feature-settings: normal;
   }
 
-  /* At display sizes the 1.12em bump makes Arabic overpower the Latin beside
-     it — Arabic has no descender-light uppercase to balance against. Pair this
-     with text-display-xl / text-display / text-h2. */
+  /* Arabic still sets taller than Latin at display sizes — it has no
+     descender-light uppercase to balance against — so the large pairings get
+     a small reduction. Pair with text-display-xl / text-display / text-h2. */
   .ar-display {
-    font-size: 0.95em;
-    line-height: 1.25;
+    font-size: 0.92em;
+    line-height: 1.3;
   }
 
   /* Dark sections. Focus ring has to switch too, or it disappears. */

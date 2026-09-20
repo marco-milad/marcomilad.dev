@@ -137,7 +137,7 @@ export default function SpecimenPage() {
           </p>
 
           <div className="relative mt-block">
-            {/* The decorative Arabic moment, candidate A (Reem Kufi). */}
+            {/* The decorative Arabic moment, in Qahiri. */}
             <p
               aria-hidden="true"
               lang="ar"
@@ -155,9 +155,9 @@ export default function SpecimenPage() {
           </div>
 
           <p className="mt-block max-w-prose text-lead text-ink-2">
-            Candidate A sets the big Arabic in Reem Kufi behind the headline in
-            a soft accent tint, with one accent word in the headline itself.
-            Candidate B below uses Noto Kufi Arabic at full accent strength.
+            The headline is Readex Pro, which draws Latin and Arabic in one
+            design. The large Arabic behind it is Qahiri, an angular Kufi used
+            only at display size.
           </p>
 
           <div className="mt-section flex flex-wrap items-baseline gap-8">
@@ -170,7 +170,7 @@ export default function SpecimenPage() {
               ماركو ميلاد
             </p>
             <p className="font-mono text-meta uppercase text-ink-3">
-              Reem Kufi · accent
+              Qahiri · accent
             </p>
           </div>
 
@@ -179,12 +179,12 @@ export default function SpecimenPage() {
               aria-hidden="true"
               lang="ar"
               dir="rtl"
-              className="ar-kufi-b text-[clamp(3rem,9vw,7rem)] leading-none text-accent"
+              className="ar text-[clamp(3rem,9vw,7rem)] leading-none text-accent"
             >
               ماركو ميلاد
             </p>
             <p className="font-mono text-meta uppercase text-ink-3">
-              Noto Kufi Arabic · accent
+              Readex Pro · accent
             </p>
           </div>
         </div>
@@ -194,11 +194,11 @@ export default function SpecimenPage() {
       <Section index="01" label="Arabic faces" ar="الخطوط">
         <div className="grid gap-block lg:grid-cols-3">
           {[
-            { name: "Reem Kufi", cls: "ar-kufi", role: "Display candidate A" },
-            { name: "Noto Kufi Arabic", cls: "ar-kufi-b", role: "Display candidate B" },
-            { name: "IBM Plex Sans Arabic", cls: "", role: "Functional — stays as is" },
+            { name: "Qahiri", cls: "ar-kufi", role: "Display only" },
+            { name: "Readex Pro", cls: "ar", role: "Reading Arabic — and the Latin beside it" },
+            { name: "Readex Pro", cls: "ar ar-display", role: "Display pairing (.ar-display)" },
           ].map((face) => (
-            <div key={face.name} className="border-t border-rule pt-5">
+            <div key={face.role} className="border-t border-rule pt-5">
               <p className="font-mono text-meta uppercase text-ink-3">
                 {face.name} · {face.role}
               </p>
@@ -221,8 +221,8 @@ export default function SpecimenPage() {
 
         <p className="mt-block max-w-prose text-body text-ink-2">
           The bottom line in each column is the Gold ERP glossary — real
-          reading text. It is there to show why the functional face stays Plex:
-          the Kufi faces are built for size, not for reading.
+          reading text. It is there to show why Qahiri is kept to display
+          sizes: it is built for scale, and the domain terms have to be read.
         </p>
       </Section>
 

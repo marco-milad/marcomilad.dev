@@ -104,8 +104,7 @@ export function SiteFooter() {
               <Ar decorative>{lexicon.madeInCairo.ar?.text}</Ar>
             </p>
             <p>
-              Next.js · statically rendered · set in Geist and IBM Plex Sans
-              Arabic
+              Next.js · statically rendered · set in Readex Pro and Qahiri
             </p>
             <p>
               © {year} {site.name}

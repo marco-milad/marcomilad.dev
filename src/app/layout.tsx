@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  IBM_Plex_Sans_Arabic,
-  Reem_Kufi,
-} from "next/font/google";
+import { Geist_Mono, Qahiri, Readex_Pro } from "next/font/google";
 import { site } from "@content/site";
 import { Reveals } from "@/components/motion/Reveals";
 import { RevealScript } from "@/components/motion/RevealScript";
@@ -14,45 +9,49 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { SocialRail } from "@/components/layout/SocialRail";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+/**
+ * One family for both scripts.
+ *
+ * Readex Pro draws Latin and Arabic in the same design, so an English word and
+ * its Arabic twin sit at the same weight and optical size without being tuned
+ * against each other. That is the whole reason for the switch: the previous
+ * pairing needed the Arabic bumped 12% just to stop it looking small beside
+ * Geist, and any change to one side meant re-checking the other.
+ *
+ * The fallback list matters here. next/font's metric-matched fallback is built
+ * on a Latin face with no Arabic glyphs, so without these the Arabic runs
+ * would flash in a serif before the real font lands.
+ */
+const readex = Readex_Pro({
+  variable: "--font-readex",
+  subsets: ["latin", "arabic"],
   display: "swap",
+  fallback: ["Segoe UI", "Tahoma", "sans-serif"],
 });
 
+/**
+ * Meta voice: eyebrows, indices, figure numbers, fact-sheet labels. Kept as
+ * it was — a monospace is a different job from the text face, and Readex Pro
+ * has no mono to hand it to.
+ */
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
 
-// Arabic subset only — the Latin glyphs come from Geist.
-// adjustFontFallback is off on purpose: next/font's synthetic fallback is
-// metric-matched to a Latin face, which makes Arabic flash in a serif.
-const plexArabic = IBM_Plex_Sans_Arabic({
-  variable: "--font-plex-arabic",
-  subsets: ["arabic"],
-  // 400 only: measured on the built site, every Arabic run computes to 400 or
-  // 500, and 500 resolves down to 400 when no 500 face exists. The 600 file
-  // was being downloaded and never drawn.
-  weight: ["400"],
-  display: "swap",
-  adjustFontFallback: false,
-  fallback: ["Segoe UI", "Tahoma", "sans-serif"],
-});
-
 /**
- * Display Arabic, chosen over Noto Kufi at the specimen for having more
- * personality at size. Decorative use only — reading Arabic stays in Plex.
+ * Display Arabic: the hero watermark, the verb chain, the large twins.
+ * Decorative only — reading Arabic stays in Readex Pro.
  *
  * preload stays off: every use of it is either below the fold or absolutely
  * positioned, so a late swap cannot move layout, and the hero LCP is not made
  * to wait on a font that draws a watermark.
  */
-const reemKufi = Reem_Kufi({
-  variable: "--font-reem-kufi",
+const qahiri = Qahiri({
+  variable: "--font-qahiri",
   subsets: ["arabic"],
-  weight: ["400", "600"],
+  weight: "400",
   display: "swap",
   preload: false,
   adjustFontFallback: false,
@@ -93,7 +92,7 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
-      className={`${geistSans.variable} ${geistMono.variable} ${plexArabic.variable} ${reemKufi.variable}`}
+      className={`${readex.variable} ${geistMono.variable} ${qahiri.variable}`}
     >
       <body className="flex min-h-dvh flex-col">
         {/* First thing in the body: it arms the entrance cascade while the
