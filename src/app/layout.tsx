@@ -59,8 +59,25 @@ const qahiri = Qahiri({
   fallback: ["Segoe UI", "Tahoma", "sans-serif"],
 });
 
+/**
+ * Where this build is actually being served.
+ *
+ * The share card's URL is built from this, so it has to be a host that
+ * answers. Hardcoding marcomilad.dev meant every link preview asked a domain
+ * that does not resolve yet for its image, and got nothing back — the card
+ * existed and nobody could see it.
+ *
+ * On Vercel, VERCEL_PROJECT_PRODUCTION_URL is the project's production domain:
+ * the vercel.app address today, and marcomilad.dev by itself the moment that
+ * domain is attached — no change needed here when it goes live. Anywhere else
+ * the variable is absent and this falls back to site.url as before.
+ */
+const deployedUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : site.url;
+
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(deployedUrl),
   title: {
     default: "Marco Milad — Software Engineer (React, Next.js, TypeScript)",
     template: "%s — Marco Milad",
@@ -76,7 +93,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en",
     siteName: `${site.displayName} · ${site.nameAr.text}`,
-    url: site.url,
+    // Relative, so it resolves against metadataBase like the image does.
+    // LinkedIn and Facebook follow og:url to scrape the preview; an absolute
+    // URL on a domain that is not live yet sends them to nothing.
+    url: "/",
   },
   twitter: { card: "summary_large_image" },
   robots: {
