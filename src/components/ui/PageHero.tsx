@@ -41,15 +41,23 @@ export function PageHero({
   return (
     <header className={cn("border-b border-rule pt-block pb-block", className)}>
       <Container>
+        {/* The dot is inline, not a flex sibling. As a flex item with
+            items-center it was centred against the whole block, so the moment
+            the facts wrapped on a phone it floated opposite the middle of two
+            lines instead of sitting at the start of the first one. */}
         <p
-          className="flex items-center gap-3 font-mono text-meta uppercase text-ink-3"
+          className="font-mono text-meta uppercase text-ink-3"
           {...revealNow(0, { shift: 10 })}
         >
-          <span
-            aria-hidden="true"
-            className="block h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-          />
-          <span>{facts.join(" · ")}</span>
+          {/* A glyph, not a sized box. Both w-1.5 and w-[6px] came out 41.75px
+              wide on this element — the value of --spacing-block at phone
+              width — and drew the mark as a dash. The utilities generate
+              correctly and nothing else matched `width`, so the cause was not
+              established; a character has no width to get wrong. */}
+          <span aria-hidden="true" className="me-2 text-[0.7em] text-accent">
+            ●
+          </span>
+          {facts.join(" · ")}
         </p>
 
         <div className="relative mt-6">

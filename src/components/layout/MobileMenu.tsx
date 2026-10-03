@@ -34,16 +34,18 @@ export function MobileMenu() {
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-11 items-center gap-2 rounded-figure border border-rule-strong px-4 text-small transition-colors duration-200 ease-editorial hover:border-ink"
+        // Icon alone, no border and no label: the trigger was the heaviest
+        // thing in the header and it only has one job. The tap target stays
+        // 44px, and the name moves to assistive text rather than disappearing.
+        className="-me-2 inline-flex h-11 w-11 items-center justify-center rounded-figure text-ink transition-colors duration-200 ease-editorial hover:text-accent-text"
         aria-haspopup="dialog"
         aria-expanded={open}
       >
-        <span aria-hidden="true" className="flex flex-col gap-[3px]">
-          <span className="block h-px w-4 bg-ink" />
-          <span className="block h-px w-4 bg-ink" />
-          <span className="block h-px w-4 bg-ink" />
+        <span aria-hidden="true" className="flex flex-col gap-[5px]">
+          <span className="block h-px w-6 bg-current" />
+          <span className="block h-px w-6 bg-current" />
         </span>
-        Menu
+        <span className="sr-only">Menu</span>
       </button>
 
       <dialog

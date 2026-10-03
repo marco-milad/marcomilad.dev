@@ -21,16 +21,19 @@ export function Wordmark({
   const content = (
     <>
       <span className="whitespace-nowrap">{site.displayName}</span>
-      {/* The pair needs room. Below sm the Arabic name would wrap the
-          wordmark onto two lines, so it steps aside there. */}
+      {/* The dot only exists when the pair is on one line. */}
       <span aria-hidden="true" className="mx-2 hidden text-ink-3 sm:inline">
         ·
       </span>
+      {/* The Arabic used to disappear below sm, because side by side it wrapped
+          the wordmark onto two lines. It is stacked underneath there instead —
+          the phone is where most of the people this name is for will read it,
+          and it should not be the one screen that drops it. */}
       <Ar
         decorative={site.nameAr.decorative}
         className={cn(
-          "ar-display hidden sm:inline",
-          tone === "band" && "text-band-fg",
+          "ar-display block text-[0.85em] text-ink-3 sm:inline sm:text-[1em]",
+          tone === "band" ? "text-band-muted sm:text-band-fg" : "sm:text-ink",
         )}
       >
         {site.nameAr.text}
@@ -45,7 +48,13 @@ export function Wordmark({
   }
 
   return (
-    <Link href="/" className={cn(classes, "inline-flex items-baseline")}>
+    <Link
+      href="/"
+      className={cn(
+        classes,
+        "inline-flex flex-col items-start leading-tight sm:flex-row sm:items-baseline",
+      )}
+    >
       {content}
     </Link>
   );

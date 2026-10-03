@@ -17,18 +17,19 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pt-block pb-section">
       <Container>
+        {/* Inline dot, same as PageHero: as a centred flex item it drifts to
+            the middle the moment the line wraps on a narrow phone. */}
         <p
-          className="flex items-center gap-3 font-mono text-meta uppercase text-ink-3"
+          className="font-mono text-meta uppercase text-ink-3"
           {...revealNow(0, { shift: 10 })}
         >
-          <span
-            aria-hidden="true"
-            className="block h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-          />
-          <span>
-            <span className="text-accent-text">{site.role}</span>{" "}
-            <span aria-hidden="true">·</span> {site.location.en}
+          {/* A glyph, not a sized box — see PageHero: the width utilities came
+              out 41.75px here and drew the mark as a dash. */}
+          <span aria-hidden="true" className="me-2 text-[0.7em] text-accent">
+            ●
           </span>
+          <span className="text-accent-text">{site.role}</span>{" "}
+          <span aria-hidden="true">·</span> {site.location.en}
         </p>
 
         <div className="relative mt-6">
