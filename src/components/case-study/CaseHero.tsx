@@ -1,5 +1,6 @@
 import type { Project } from "@content/schema";
 import { stack } from "@content/stack";
+import { brandInk, brandTint } from "@/lib/contrast";
 import { reveal, revealNow } from "@/lib/reveal";
 import { Badge } from "@/components/ui/Badge";
 import { Container } from "@/components/ui/Container";
@@ -63,8 +64,12 @@ export function CaseHero({ project }: { project: Project }) {
 
   // The product's own colour, mixed down to a tint for the band and darkened
   // for text. Raw brand is used only for the rule and the mark.
-  const tint = `color-mix(in srgb, ${project.brand} 7%, var(--color-paper))`;
-  const brandInk = `color-mix(in srgb, ${project.brand} 72%, var(--color-ink))`;
+  //
+  // Both are computed rather than handed to color-mix, because the text one has
+  // to be measured against the tint it sits on: a light brand needs darkening
+  // much further than a dark one before it is readable.
+  const tint = brandTint(project.brand);
+  const brandText = brandInk(project.brand, tint);
 
   return (
     <section
@@ -85,7 +90,7 @@ export function CaseHero({ project }: { project: Project }) {
             rather than the observer's — same rhythm, no wait for the bundle. */}
         <p
           className="font-mono text-meta uppercase"
-          {...revealNow(0, { shift: 10, style: { color: brandInk } })}
+          {...revealNow(0, { shift: 10, style: { color: brandText } })}
         >
           <Twin label={project.category} />
         </p>

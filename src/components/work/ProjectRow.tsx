@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@content/schema";
 import { cn } from "@/lib/cn";
+import { brandInk } from "@/lib/contrast";
 import { reveal } from "@/lib/reveal";
 import { Badge } from "@/components/ui/Badge";
 import { Twin } from "@/components/ui/Twin";
@@ -76,9 +77,9 @@ export function ProjectRow({
         >
           <p
             className="font-mono text-meta uppercase"
-            style={{
-              color: `color-mix(in srgb, ${project.brand} 72%, var(--color-ink))`,
-            }}
+            // Measured against paper, not a fixed mix: a light brand has to be
+            // darkened much further than a dark one to stay readable.
+            style={{ color: brandInk(project.brand) }}
           >
             <Twin label={project.category} />
           </p>

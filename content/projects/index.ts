@@ -1,4 +1,5 @@
 ﻿import type { ProjectInput } from "../schema";
+import { brandkey } from "./brandkey";
 import { goldErp } from "./gold-erp";
 import { mmBags } from "./mm-bags";
 import { ojosStudio } from "./ojos-studio";
@@ -18,5 +19,6 @@ export const projectRegistry: ProjectInput[] = [
   rayLab,
   theIntern,
   ojosStudio,
+  brandkey,
 ];
 
