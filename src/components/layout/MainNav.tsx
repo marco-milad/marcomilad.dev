@@ -30,7 +30,7 @@ export function MainNav() {
           // higher than theirs — the mark moved the thing it was marking.
           // Now only the twin's opacity changes and the row never moves.
           const label = (
-            <span className="flex flex-col items-start gap-1 leading-none">
+            <span className="relative block leading-none">
               <span className="flex items-baseline gap-1 leading-none">
                 {item.label.en}
                 {item.fileNote ? (
@@ -40,10 +40,19 @@ export function MainNav() {
                 ) : null}
               </span>
               {item.label.ar ? (
+                // Absolute, so the twin contributes no width. In flow it did,
+                // and that width depends on the Arabic font: when Readex Pro
+                // replaced the fallback the nav group grew ~16px and shifted
+                // the whole header. The row it needs is reserved by the link's
+                // padding instead, which no font swap can change.
+                //
+                // Physical `left`, not `start`: this span carries dir="rtl",
+                // and a logical inset would flip it to the far side.
                 <Ar
                   decorative
                   className={cn(
-                    "whitespace-nowrap text-[0.7rem] leading-none transition-opacity duration-300 ease-editorial",
+                    "absolute top-[1.35em] left-0 whitespace-nowrap text-[0.7rem] leading-none",
+                    "transition-opacity duration-300 ease-editorial",
                     isActive ? "text-accent-text opacity-100" : "opacity-0",
                   )}
                 >
@@ -54,11 +63,13 @@ export function MainNav() {
           );
 
           const classes = cn(
-            "relative block text-small transition-colors duration-200",
+            // pb-5 reserves the twin's row for every item, active or not, so
+            // the baseline of one item never sits higher than its neighbours.
+            "relative block pb-5 text-small transition-colors duration-200",
             // A rule that draws itself in from the start of the word. The
             // active item keeps it drawn, so hover and "you are here" use the
             // same mark at different strengths.
-            "after:absolute after:inset-x-0 after:-bottom-2 after:h-px after:origin-left",
+            "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-left",
             "after:bg-accent after:transition-transform after:duration-200 after:ease-editorial after:content-['']",
             "hover:after:scale-x-100",
             isActive

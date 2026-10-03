@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { lexicon } from "@content/lexicon";
+import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ProjectRow } from "@/components/work/ProjectRow";
-import { getAllProjects } from "@/lib/content";
+import { getAllProjects, getPortfolioStats } from "@/lib/content";
 import { countWord } from "@/lib/numbers";
 
 export const metadata: Metadata = {
@@ -15,27 +15,38 @@ export const metadata: Metadata = {
 
 export default function WorkPage() {
   const projects = getAllProjects();
+  const stats = getPortfolioStats();
 
   return (
-    <Section>
-      <SectionHeader
-        label={lexicon.selectedWork}
-        level={1}
+    <>
+      <PageHero
+        // Derived, so a sixth project changes the line without anyone
+        // remembering to.
+        facts={[
+          "Work",
+          stats.ongoing
+            ? `${stats.firstYear} to now`
+            : `${stats.firstYear}–${stats.lastYear}`,
+          `${countWord(stats.inProduction, true)} in production`,
+        ]}
         title="Selected work"
+        arabic={lexicon.work}
         lead={`${countWord(projects.length, true)} products taken from the business problem through to production. Each case study says what was genuinely hard about it, and what the alternative would have cost.`}
       />
 
-      <div className="flex flex-col gap-section">
-        {projects.map((project, index) => (
-          <ProjectRow
-            key={project.slug}
-            project={project}
-            index={index}
-            priority={index === 0}
-            headingLevel={2}
-          />
-        ))}
-      </div>
-    </Section>
+      <Section flush>
+        <div className="flex flex-col gap-section">
+          {projects.map((project, index) => (
+            <ProjectRow
+              key={project.slug}
+              project={project}
+              index={index}
+              priority={index === 0}
+              headingLevel={2}
+            />
+          ))}
+        </div>
+      </Section>
+    </>
   );
 }

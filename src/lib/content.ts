@@ -128,6 +128,46 @@ export function getProofFacts(): string[] {
   return facts;
 }
 
+/**
+ * The numbers behind a page header.
+ *
+ * Page eyebrows say something true about the page rather than repeating its
+ * own name, so they read these instead of hardcoding figures that would drift
+ * the moment a sixth project lands.
+ */
+export function getPortfolioStats(): {
+  total: number;
+  inProduction: number;
+  firstYear: string;
+  lastYear: string;
+  ongoing: boolean;
+  surfaces: string[];
+} {
+  const all = getAllProjects();
+  const platforms = new Set(all.flatMap((project) => project.platforms));
+
+  const years = all.map((project) => project.timeline.start.slice(0, 4));
+  const ongoing = all.some((project) => project.timeline.end === "present");
+  const endYears = all
+    .map((project) => project.timeline.end)
+    .filter((end) => end !== "present")
+    .map((end) => end.slice(0, 4));
+
+  return {
+    total: all.length,
+    inProduction: all.filter((project) => project.status === "production")
+      .length,
+    firstYear: years.sort()[0] ?? "",
+    lastYear: endYears.sort().at(-1) ?? "",
+    ongoing,
+    surfaces: [
+      (platforms.has("web") || platforms.has("admin")) && "Web",
+      platforms.has("ios") && "iOS",
+      platforms.has("android") && "Android",
+    ].filter((surface): surface is string => Boolean(surface)),
+  };
+}
+
 /** Technologies mapped to the projects that actually used them. */
 export function getStackUsage(): Array<{
   id: StackId;

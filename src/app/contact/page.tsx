@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { lexicon } from "@content/lexicon";
 import { site } from "@content/site";
 import { reveal, revealNow } from "@/lib/reveal";
-import { Ar } from "@/components/ui/Ar";
 import { Button } from "@/components/ui/Button";
+import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TextLink } from "@/components/ui/TextLink";
 import { ContactForm } from "@/components/contact/ContactForm";
 
@@ -19,21 +18,14 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <Section>
-        <SectionHeader
-          label={lexicon.contact}
-          level={1}
-          title={
-            <>
-              {lexicon.letsStart.en}{" "}
-              <Ar decorative className="ar-display text-accent-text">
-                {lexicon.letsStart.ar?.text}
-              </Ar>
-            </>
-          }
-          lead="Two kinds of conversation, and both are welcome."
-        />
+      <PageHero
+        facts={["Contact", site.location.en, "Open to roles and client work"]}
+        title={lexicon.letsStart.en}
+        arabic={lexicon.contact}
+        lead="Two kinds of conversation, and both are welcome."
+      />
 
+      <Section flush>
         <div className="grid gap-block lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7" {...revealNow(3)}>
             <ContactForm />

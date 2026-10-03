@@ -7,11 +7,13 @@ import { certifications, education, experience } from "@content/experience";
 import { lexicon } from "@content/lexicon";
 import { site } from "@content/site";
 import { Button } from "@/components/ui/Button";
+import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { VerbChain } from "@/components/home/VerbChain";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getProject } from "@/lib/content";
+import { getPortfolioStats, getProject } from "@/lib/content";
+import { countWord } from "@/lib/numbers";
 import { reveal, revealNow } from "@/lib/reveal";
 import { breadcrumbJsonLd, personJsonLd, websiteJsonLd } from "@/lib/seo";
 
@@ -23,6 +25,8 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const stats = getPortfolioStats();
+
   return (
     <>
       <JsonLd
@@ -35,15 +39,19 @@ export default function AboutPage() {
           ]),
         ]}
       />
-      <Section>
+      <PageHero
+        facts={[
+          "About",
+          site.location.en,
+          `${countWord(stats.total, true)} products, ${countWord(stats.surfaces.length)} platforms`,
+        ]}
+        title="I build the whole product, not a layer of it"
+        arabic={lexicon.about}
+      />
+
+      <Section flush>
         <div className="grid gap-block lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
-            <SectionHeader
-              label={lexicon.about}
-              level={1}
-              title="I build the whole product, not a layer of it"
-            />
-
             <div className="flex flex-col gap-5 text-body text-ink-2">
               <p className="max-w-prose" {...revealNow(3)}>
                 I am a software engineer in {site.location.en}. In practice that

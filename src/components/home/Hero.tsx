@@ -56,12 +56,13 @@ export function Hero() {
           {/* Rises without fading: this is the LCP element on the home page,
               and a fade would take it out of the metric rather than make it
               arrive any sooner. */}
-          {/* 15ch, not 13: Readex Pro is a wider face than the one this was
-              set for, and 13ch broke the line after "Product". 14 is the
-              threshold measured across 768-1440; 15 leaves slack so a fallback
-              metric cannot tip it back to three lines. */}
+          {/* em, not ch. A ch is the width of the font's own "0", so the
+              measure changed the moment Readex Pro replaced the fallback —
+              812px to 915px — and the headline re-wrapped under the reader.
+              That was the whole of this page's layout shift. 9.15em is the
+              same measure Readex gives, without depending on the font. */}
           <h1
-            className="max-w-[15ch] text-display-xl"
+            className="max-w-[9.15em] text-display-xl"
             {...revealNow(0, { fade: false, shift: 14 })}
           >
             Software engineer, idea to{" "}

@@ -11,12 +11,19 @@ export function Section({
   tone = "paper",
   width = "content",
   id,
+  flush = false,
   className,
   children,
 }: {
   tone?: SectionTone;
   width?: ContainerWidth;
   id?: string;
+  /**
+   * Drops the top padding, for the section that follows a PageHero. The class
+   * is omitted rather than overridden: two padding utilities on one element
+   * are resolved by stylesheet order, not by which one the caller passed last.
+   */
+  flush?: boolean;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -27,7 +34,11 @@ export function Section({
       // band in and then cascading its children inside it means watching an
       // empty box arrive first; revealing the parts directly reads better and
       // gives each one its own trigger point.
-      className={cn(tone === "band" && "band", "py-section", className)}
+      className={cn(
+        tone === "band" && "band",
+        flush ? "pb-section" : "py-section",
+        className,
+      )}
     >
       <Container width={width}>{children}</Container>
     </section>

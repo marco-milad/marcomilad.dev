@@ -23,7 +23,7 @@ export function SiteFooter() {
             <div {...reveal(0)}>
               <Wordmarkish />
               <p className="mt-4 max-w-prose text-small text-band-muted">
-                {site.role} in {site.location.en}. Available for product
+                {site.role} in {site.location.en}. Available for software
                 engineering roles and selected client work.
               </p>
             </div>
