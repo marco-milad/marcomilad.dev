@@ -42,7 +42,13 @@ export function BrowserFrame({
               "border-rule bg-paper-sunk text-ink-2",
         )}
       >
-        {url ? <span className="truncate">{url}</span> : null}
+        {/* min-w-0 is what lets truncate work. A flex item's automatic minimum
+            size is its content width, and `truncate` sets white-space: nowrap,
+            so without this the chrome bar could not shrink below the full URL
+            — it pushed the whole figure wider than the page and gave the phone
+            a horizontal scroll. Short URLs hid it; brandkey-sa.vercel.app/ar
+            was the first one long enough to show. */}
+        {url ? <span className="min-w-0 truncate">{url}</span> : null}
       </div>
       {children}
     </div>

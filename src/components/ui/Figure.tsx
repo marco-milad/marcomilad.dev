@@ -31,7 +31,13 @@ export function Figure({
   const hasFlags = sampleData || rtl;
 
   return (
-    <figure {...rest} className={cn("w-full", className)}>
+    // min-w-0 is load-bearing. A figure is usually a grid or flex item, and
+    // such an item's automatic minimum size is its content's minimum — which
+    // the browser-frame URL sets, because `truncate` makes it nowrap. Without
+    // this, one long URL widened its grid track past the page and gave the
+    // whole phone a horizontal scroll. Measured: the track was 449px inside a
+    // 350px container until this was set.
+    <figure {...rest} className={cn("w-full min-w-0", className)}>
       {children}
       {(caption || hasFlags) && (
         <figcaption
