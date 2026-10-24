@@ -315,6 +315,7 @@ export const theIntern: ProjectInput = {
           ],
           rootCause: [
             "Two causes stacked. The client is a single-page application, so a crawler fetching a posting received an empty shell and no content. And robots.txt was disallowing the API the pages loaded their data from, so even a crawler willing to execute the application could not reach what it needed.",
+            "Three instruments turned “SEO is bad” into something specific. URL Inspection showed the HTML Google actually rendered next to what a student sees, and the job details were simply absent. The Rich Results Test found no JobPosting data at all, which is why the internships could never reach Google Jobs. And the page-indexing report put the soft 404s on exactly the pages that load their content from the API — three readings pointing at the same place.",
           ],
           decision: [
             "Render the pages that have to rank on the server, and stop blocking the data they depend on.",
@@ -323,7 +324,25 @@ export const theIntern: ProjectInput = {
             "Landing pages per city are rendered by the backend, so a crawler sees real content rather than an app shell. Postings carry JobPosting structured data with real deadlines, which is what makes them eligible for Google Jobs. The sitemap was rebuilt, soft 404s were replaced with real 404s so dead postings leave the index instead of lingering, and the robots rule blocking the API was removed.",
           ],
           result: [
-            "First page of Google for “internships in Cairo”, and the first result for the brand on Google, Bing and DuckDuckGo. Postings are eligible for Google Jobs rather than invisible to it.",
+            "Page one of Google for “internships in Cairo” — fifth, alongside Wuzzuf, Glassdoor and Indeed — and the first result for the brand on Google, Bing and DuckDuckGo. Postings are eligible for the Google Jobs box rather than invisible to it.",
+            "Search Console began tracking the property on 12 October 2026. Its first six days recorded 689 impressions and 34 clicks at an average position of 7.6, with no advertising running.",
+          ],
+        },
+        {
+          title: "One homepage cannot rank for every search a student makes",
+          tags: ["product"],
+          problem: [
+            "Once the pages could be read at all, a second problem showed through: there was essentially one page trying to rank for everything. Students do not search for a platform, they search for “internships in Cairo”, “remote internships”, or which companies take interns — and nothing on the site answered any of those as its own page.",
+          ],
+          decision: [
+            "Give each search students actually make a page of its own, and write the guides in Arabic as well as English rather than translating the English afterwards.",
+          ],
+          implementation: [
+            "A page per real search — Cairo, Dubai, remote — each listing openings rather than describing the product, and guides answering the questions students ask, such as which companies offer internships in Cairo. Search Console then says which searches the site almost wins, and those decide what gets written next.",
+          ],
+          result: [
+            "The Arabic guide to companies offering internships in Cairo became the single biggest source of clicks: 12 of the first 34, from 124 impressions at an average position of 5.4. The homepage drew 10 clicks from 316 impressions at 7.9. Six days is a small window and two clicks is a small margin, but the direction is clear — the Arabic page converted at roughly three times the homepage’s rate from a third of the exposure.",
+            "That is the finding worth carrying beyond this product: fewer sites answer these questions well in Arabic, so the Arabic page competes in a thinner field. It is the same bet the rest of this portfolio makes, measured for once.",
           ],
         },
         {
@@ -472,10 +491,29 @@ export const theIntern: ProjectInput = {
         {
           label: "Search position for “internships in Cairo”",
           before: "not indexed",
-          after: "first page",
+          after: "page one, fifth",
           method:
-            "Google, October 2026, after the SEO work below; first result for the brand name on Google, Bing and DuckDuckGo",
+            "Searched from Cairo, 21 October 2026, below Wuzzuf, Glassdoor, the AUC career centre and Indeed. Search results are personalised, so this is one observation rather than a fixed rank",
           verification: "observed",
+        },
+        {
+          label: "Times shown in Google, first six tracked days",
+          after: "689",
+          method:
+            "Search Console, 12–17 October 2026 — the property’s first six days of data",
+          verification: "measured-production",
+        },
+        {
+          label: "Clicks from search, same six days",
+          after: "34",
+          method: "Search Console over the same window, with no advertising running",
+          verification: "measured-production",
+        },
+        {
+          label: "Average position across all searches",
+          after: "7.6",
+          method: "Search Console, 12–17 October 2026, all queries",
+          verification: "measured-production",
         },
       ],
     },
