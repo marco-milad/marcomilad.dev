@@ -10,6 +10,7 @@ import landingAr from "./images/landing-ar.png";
 import landingEn from "./images/landing-en.png";
 import playStore from "./images/play-store.png";
 import roleSelection from "./images/role-selection.png";
+import serpCairo from "./images/serp-cairo.png";
 import simulation from "./images/simulation.png";
 
 /**
@@ -327,6 +328,18 @@ export const theIntern: ProjectInput = {
             "Page one of Google for “internships in Cairo” — fifth, alongside Wuzzuf, Glassdoor and Indeed — and the first result for the brand on Google, Bing and DuckDuckGo. Postings are eligible for the Google Jobs box rather than invisible to it.",
             "Search Console began tracking the property on 12 October 2026. Its first six days recorded 689 impressions and 34 clicks at an average position of 7.6, with no advertising running.",
           ],
+          figure: {
+            src: serpCairo,
+            alt: "Two Google results for internships in Cairo. The first is TheIntern.app, titled “Internships in Cairo, Egypt — Apply Online” with a theintern.app/Internships breadcrumb; below it is a listing from Careerjet.com.eg",
+            treatment: "bare",
+            // What this shows is not a rank. It is the server-rendered page
+            // doing its job: the title and the description Google prints are
+            // the ones the backend writes, and the breadcrumb is the URL
+            // structure built for these searches. Before the work, Google had
+            // nothing to print.
+            caption:
+              "The result Google shows for “internships in Cairo”. The title, the description and the breadcrumb are what the server renders — before this work the crawler received an empty shell. The listing beneath it is a job aggregator. Search is personalised and this is a crop of one result page, so it is evidence that the page is being read and shown, not a measurement of rank; the measured position is in the figures above.",
+          },
         },
         {
           title: "One homepage cannot rank for every search a student makes",
