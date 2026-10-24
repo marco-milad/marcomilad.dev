@@ -32,3 +32,22 @@ Thumbs.db
 # Only cropped, optimized images committed under content/**/images/ ship.
 # ---------------------------------------------------------------------------
 /Portfolio-assets/
+
+# ---------------------------------------------------------------------------
+# Local tooling, not part of the site.
+#
+# tools/ holds the motion-graphics reel workspace: its own package.json and
+# node_modules, ~600 files including a vendored copy of Remotion's agent skills.
+# None of it builds or serves the portfolio. It stays on disk so the work is not
+# lost, and out of the repo so the repo stays the site.
+#
+# It is also excluded from tsconfig.json and eslint.config.mjs, because neither
+# of those reads .gitignore and both would otherwise try to check a project with
+# its own toolchain.
+# ---------------------------------------------------------------------------
+/tools/
+
+# Source documents dropped in for reference. What ships is the copy under
+# public/ — public/cv/marco-milad-cv.pdf and public/credentials/*.pdf — so the
+# originals here would only be a second copy of the same bytes.
+/content/about/*.pdf

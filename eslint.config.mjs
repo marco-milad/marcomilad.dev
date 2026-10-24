@@ -6,7 +6,7 @@ const next = Array.isArray(nextConfig) ? nextConfig : [nextConfig];
 const config = [
   ...next,
   {
-    ignores: [".next/**", "out/**", "node_modules/**", "Portfolio-assets/**"],
+    ignores: [".next/**", "out/**", "node_modules/**", "Portfolio-assets/**", "tools/**"],
   },
 ];
 
