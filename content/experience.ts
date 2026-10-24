@@ -52,8 +52,11 @@ export const experience: Role[] = [
   {
     org: "ITI — Information Technology Institute",
     title: "Front-End Development Trainee (part-time)",
-    start: "September 2025",
-    end: "December 2025",
+    // From the certificate: 05 July to 30 November 2025. The CV says
+    // 07/2025-01/2026 and this entry used to say September to December; the
+    // issuing document settles it.
+    start: "July 2025",
+    end: "November 2025",
     location: "Cairo",
     summary:
       "Intensive front-end track. Built a full-stack marketplace clone with authentication, cart, orders, payments and an admin panel.",
@@ -61,7 +64,9 @@ export const experience: Role[] = [
   {
     org: "DEPI — Digital Egypt Pioneers Initiative",
     title: "Mobile Development Intern",
-    start: "June 2024",
+    // From the certificate: April to October 2024. The CV says 08/2024-01/2025
+    // and this entry used to say June; the issuing document settles it.
+    start: "April 2024",
     end: "October 2024",
     location: "Remote",
     summary:
