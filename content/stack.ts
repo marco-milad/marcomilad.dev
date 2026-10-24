@@ -28,6 +28,8 @@ export const stack = {
   serverActions: { name: "Server Actions", group: "backend" },
   zod: { name: "Zod", group: "backend" },
   fastapi: { name: "FastAPI", group: "backend" },
+  pytest: { name: "pytest", group: "backend" },
+  groq: { name: "Groq", group: "backend" },
   puppeteer: { name: "Puppeteer", group: "backend" },
   resend: { name: "Resend", group: "backend" },
   twilio: { name: "Twilio", group: "backend" },
@@ -40,6 +42,7 @@ export const stack = {
 
   // --- delivery ---
   vercel: { name: "Vercel", group: "delivery" },
+  nginx: { name: "nginx", group: "delivery" },
   cloudflareWorkers: { name: "Cloudflare Workers", group: "delivery" },
   cloudinary: { name: "Cloudinary", group: "delivery" },
   gitlabCi: { name: "GitLab CI", group: "delivery" },

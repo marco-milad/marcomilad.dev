@@ -25,7 +25,10 @@ import simulation from "./images/simulation.png";
  * 0-of-8 worker reproduction, the (N−1)/N failure rate, retry budgets, and the
  * published build numbers. No download or user counts.
  *
- * EN/AR only. French is deferred and is never claimed.
+ * EN/AR only. The locale layer is in place across web and both apps, so a
+ * third language is translation work rather than a rebuild — but French is
+ * not shipped and is never claimed. Confirmed again 2026-10-21, when the FR
+ * claim was removed from the public TheIntern.app case study.
  */
 export const theIntern: ProjectInput = {
   slug: "the-intern",
@@ -35,9 +38,9 @@ export const theIntern: ProjectInput = {
     "A platform where students run a simulated internship: an AI interview, generated daily tasks, an assessment and a certificate — delivered across web and both app stores, in English and Arabic.",
   category: { en: "AI product", ar: ar("منتج ذكاء اصطناعي") },
   year: "2026",
-  duration: "April 2026 – present",
+  duration: "March 2026 – present",
   status: "production",
-  role: "Full-stack Engineer — sole engineer on the product",
+  role: "Product Engineer, end to end",
   platforms: ["web", "ios", "android"],
   languages: ["en", "ar"],
   stack: [
@@ -50,13 +53,16 @@ export const theIntern: ProjectInput = {
     "capacitor",
     "i18next",
     "stripe",
+    "groq",
+    "nginx",
+    "pytest",
     "gitlabCi",
   ],
   links: {
     live: "https://theintern.app",
   },
   brand: "#7f13ec",
-  timeline: { start: "2026-04", end: "present" },
+  timeline: { start: "2026-03", end: "present" },
   confidentiality: "limited",
   depth: "case-study",
   featured: true,
@@ -98,7 +104,8 @@ export const theIntern: ProjectInput = {
           "iOS build, signing and App Store Connect delivery",
           "The English/Arabic RTL port across both web and mobile",
         ],
-        team: "Sole engineer on the product, working to the CEO's product direction at elama.ai.",
+        team:
+          "Sole engineer on the product, working with the co-founders Bassem Nassif (CEO) and Nora Nassif (CBO).",
       },
       body: [
         "Six months as the only engineer on the product. Product direction was the CEO's; the engineering decisions below were mine.",
@@ -300,6 +307,60 @@ export const theIntern: ProjectInput = {
             "The port landed on both platforms with the shared files verified identical, and it is the change carried by the build now in review. The remaining issues are written down rather than quietly left: direction is only applied when the language is switched rather than on a fresh load, translated strings are captured when a screen first mounts, and some temporary overrides stay until the remaining pages are converted.",
           ],
         },
+        {
+          title: "A robots file was hiding the product from search",
+          tags: ["product", "performance"],
+          problem: [
+            "The platform was barely indexed. Job postings in particular were being read by Google as soft 404s — pages that answer successfully but look empty — so the listings students were searching for could not be found at all.",
+          ],
+          rootCause: [
+            "Two causes stacked. The client is a single-page application, so a crawler fetching a posting received an empty shell and no content. And robots.txt was disallowing the API the pages loaded their data from, so even a crawler willing to execute the application could not reach what it needed.",
+          ],
+          decision: [
+            "Render the pages that have to rank on the server, and stop blocking the data they depend on.",
+          ],
+          implementation: [
+            "Landing pages per city are rendered by the backend, so a crawler sees real content rather than an app shell. Postings carry JobPosting structured data with real deadlines, which is what makes them eligible for Google Jobs. The sitemap was rebuilt, soft 404s were replaced with real 404s so dead postings leave the index instead of lingering, and the robots rule blocking the API was removed.",
+          ],
+          result: [
+            "First page of Google for “internships in Cairo”, and the first result for the brand on Google, Bing and DuckDuckGo. Postings are eligible for Google Jobs rather than invisible to it.",
+          ],
+        },
+        {
+          title: "Students’ CVs were reachable by anyone with the URL",
+          tags: ["security"],
+          problem: [
+            "Uploaded CVs and documents sat in folders that could be reached directly by URL. Nothing linked to them, but nothing stopped a request either, and these are the most personal files the product holds.",
+          ],
+          rootCause: [
+            "The files were being treated as static assets. Serving them from a public folder makes the URL itself the only thing standing between a stranger and a student’s CV, and a URL is not a secret.",
+          ],
+          decision: [
+            "Stop serving personal files as static assets. Every one is handed out through a link that is signed, tied to the viewer and short-lived.",
+          ],
+          implementation: [
+            "A file request is now authorised first and answered with a signed URL that expires. nginx denies the old folders outright so the previous paths cannot be used, and the internal services that read these files were locked to the server itself rather than left open.",
+          ],
+          result: [
+            "No personal file is reachable without a valid, time-limited link, and none can appear in search results.",
+          ],
+        },
+        {
+          title: "Turning payments off without waiting for an app store",
+          tags: ["product", "deployment"],
+          problem: [
+            "The business wanted to drop payments to grow sign-ups, and to be able to bring them back later. On mobile that normally means a release, and a release means an app-store review queue measured in days.",
+          ],
+          decision: [
+            "Put the decision on the server instead of in the build, so the business can change its mind without shipping anything.",
+          ],
+          implementation: [
+            "Web and both apps read a single flag at startup. It fails closed, so a server that cannot be reached leaves pricing in its safe state rather than guessing. Existing billing and renewals are deliberately untouched by it — the flag governs what is offered, not what has already been agreed — and it is toggled from the admin console.",
+          ],
+          result: [
+            "Pricing turns off or on in seconds, with no app-store review in the path and no release to coordinate across three platforms.",
+          ],
+        },
       ],
     },
     {
@@ -395,6 +456,27 @@ export const theIntern: ProjectInput = {
           method: "App Store and Google Play listings at time of writing",
           verification: "observed",
         },
+        {
+          label: "Automated tests gating a production release",
+          after: "1,000+",
+          method:
+            "The suite the pipeline runs before any change is committed; no deploy proceeds on a red run",
+          verification: "observed",
+        },
+        {
+          label: "API surface",
+          after: "204 endpoints · 28 routers · 166 routes",
+          method: "Counted from the FastAPI application's own route table",
+          verification: "observed",
+        },
+        {
+          label: "Search position for “internships in Cairo”",
+          before: "not indexed",
+          after: "first page",
+          method:
+            "Google, October 2026, after the SEO work below; first result for the brand name on Google, Bing and DuckDuckGo",
+          verification: "observed",
+        },
       ],
     },
     {
@@ -403,6 +485,7 @@ export const theIntern: ProjectInput = {
       body: [
         "A generated-content product that keeps working when the model does not, sign-ins that survive the number of workers the backend happens to run, an Android app still publishable after its signing key was lost, and an iOS release pipeline that needs no Mac.",
         "The Arabic port is staged and verified rather than bolted on, and what is not finished is written down instead of implied.",
+        "Around the product, the company was accepted into Anthropic’s Claude for Startups programme and shortlisted for FDC Stars. Both belong to The Intern rather than to the engineering, and they are recorded here as the standing the work was done under, not as a result of it.",
       ],
       figure: {
         src: playStore,
