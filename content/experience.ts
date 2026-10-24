@@ -19,8 +19,12 @@ export type Role = {
 export const experience: Role[] = [
   {
     org: "elama.ai",
-    title: "Software Engineer · Product Engineer",
-    start: "March 2025",
+    title: "Junior Software Engineer · Product Engineer",
+    // March 2026, confirmed by Marco 2026-10-22 against the current CV. The
+    // earlier "March 2025" came from the previous CV header and was wrong by a
+    // year; it also put the role a year ahead of The Intern, which began at the
+    // same time.
+    start: "March 2026",
     end: "present",
     location: "Cairo — remote",
     summary:
@@ -33,7 +37,7 @@ export const experience: Role[] = [
   },
   {
     org: "Triple Vision Agency",
-    title: "Software Engineer · Front-End Developer (part-time)",
+    title: "Junior Product Engineer · Software Engineer (part-time)",
     start: "November 2025",
     end: "present",
     location: "Cairo",
@@ -66,16 +70,56 @@ export const experience: Role[] = [
 ];
 
 export const education = {
-  degree: "BSc in Computer Science",
+  // As printed on the CV, confirmed 2026-10-22. Previously recorded as a BSc in
+  // Computer Science graduating 2021, which was wrong on both the award and the
+  // dates.
+  degree: "Bachelor of Information Technology",
   school: "Faculty of Computers and Information, Assiut University",
-  year: "2021",
+  year: "2020 – 2024",
 };
 
-export const certifications = [
+export type Certification = {
+  name: string;
+  issuer: string;
+  date: string;
+  /**
+   * The track exactly as the certificate names it, where that differs from the
+   * short name above. Printed rather than paraphrased: these are the words a
+   * reader can check against the document itself.
+   */
+  track?: string;
+  /** The certificate, served from public/credentials. */
+  href?: string;
+  /** Rough size, so a link to a PDF says what it will cost to open. */
+  fileNote?: string;
+};
+
+/**
+ * Newest first. The two government programmes carry their scanned certificates;
+ * the dates and track names on these entries are taken from the documents, not
+ * from the CV, where both differ.
+ */
+export const certifications: Certification[] = [
   { name: "Claude 101", issuer: "Anthropic Education", date: "April 2026" },
   {
     name: "Claude Code in Action",
     issuer: "Anthropic Education",
     date: "April 2026",
+  },
+  {
+    name: "Information Technology Institute (ITI)",
+    issuer: "Ministry of Communications and Information Technology, Egypt",
+    date: "July – November 2025",
+    track: "Front-end and Cross-Platform Mobile Development Track",
+    href: "/credentials/iti-frontend-cross-platform-mobile.pdf",
+    fileNote: "PDF, 408 KB",
+  },
+  {
+    name: "Digital Egypt Pioneers Program (DEPI)",
+    issuer: "Ministry of Communications and Information Technology, Egypt",
+    date: "April – October 2024",
+    track: "Software Development — Mobile App Developer",
+    href: "/credentials/depi-mobile-app-developer.pdf",
+    fileNote: "PDF, 520 KB",
   },
 ];

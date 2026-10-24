@@ -9,6 +9,7 @@ import { site } from "@content/site";
 import { Button } from "@/components/ui/Button";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
+import { TextLink } from "@/components/ui/TextLink";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { VerbChain } from "@/components/home/VerbChain";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -215,16 +216,34 @@ export default function AboutPage() {
             <h2 className="font-mono text-meta uppercase text-ink-3">
               Certifications
             </h2>
-            <ul className="mt-4 flex flex-col gap-4">
+            <ul className="mt-4 flex flex-col gap-6">
               {certifications.map((certification) => (
                 <li key={certification.name}>
                   <p className="text-h3">{certification.name}</p>
+                  {/* The track as the certificate words it, not a paraphrase,
+                      so the page and the document can be read against each
+                      other. */}
+                  {certification.track ? (
+                    <p className="mt-1 text-body">{certification.track}</p>
+                  ) : null}
                   <p className="mt-1 text-body text-ink-2">
                     {certification.issuer}
                   </p>
                   <p className="mt-1 font-mono text-meta uppercase text-ink-3">
                     {certification.date}
                   </p>
+                  {certification.href ? (
+                    <p className="mt-2 text-small">
+                      <TextLink href={certification.href} external>
+                        View certificate
+                      </TextLink>
+                      {certification.fileNote ? (
+                        <span className="ms-2 font-mono text-meta uppercase text-ink-3">
+                          ({certification.fileNote})
+                        </span>
+                      ) : null}
+                    </p>
+                  ) : null}
                 </li>
               ))}
             </ul>

@@ -11,8 +11,13 @@ export const site = {
   displayName: "Eng. Marco Milad",
   /** Arabic name — meaningful, so it is NOT hidden from screen readers. */
   nameAr: ar("ماركو ميلاد", { decorative: false }),
-  /** Matches the CV's own header: "Marco Milad Mankaruios | Software Engineer". */
-  role: "Software Engineer",
+  /**
+   * Confirmed by Marco 2026-10-21, and the title he uses publicly — it is how
+   * the TheIntern.app case study bylines him. It supersedes the earlier
+   * "Software Engineer", which was taken from the previous CV header; the CV
+   * at public/cv/ still carries the old title until the new file lands.
+   */
+  role: "Product Engineer",
   location: { en: "Cairo, Egypt", ar: ar("القاهرة") },
 
   url: "https://marcomilad.dev",

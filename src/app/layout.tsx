@@ -79,11 +79,11 @@ const deployedUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 export const metadata: Metadata = {
   metadataBase: new URL(deployedUrl),
   title: {
-    default: "Marco Milad — Software Engineer (React, Next.js, TypeScript)",
+    default: "Marco Milad — Product Engineer (React, Next.js, TypeScript)",
     template: "%s — Marco Milad",
   },
   description:
-    "Software engineer taking digital products from idea to production. React, Next.js and TypeScript, full-stack on Postgres.",
+    "Product engineer taking digital products from idea to production. React, Next.js and TypeScript, full-stack on Postgres.",
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
